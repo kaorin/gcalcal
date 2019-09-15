@@ -172,6 +172,7 @@
               <class name="focus"/>
               <class name="hover"/>
               <class name="disabled"/>
+              <class name="view"/>
             </style>
           </object>
           <packing>

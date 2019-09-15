@@ -37,6 +37,11 @@ event-widget{
   font-weight: normal;
 }
 
+.view{
+  color:white;
+  font-weight: normal;
+}
+
 .button:hover{
   color:blue;
 }
