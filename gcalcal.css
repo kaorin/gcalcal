@@ -1,0 +1,76 @@
+/* .day {
+  color:blue;
+  font-weight: normal;
+} */
+
+.day:selected {
+  color: #ffffff;
+  background-color: #4a90d9;
+  padding: 0.4em;
+  border-radius: 5px;
+}
+
+/* .holiday{
+  background-color:red; 
+}
+.weekend {
+  background-color:red; 
+}
+
+event-widget{
+  background-color:red; 
+} */
+
+/* .marked {
+  color:green;
+  font-weight: bold; 
+} */
+
+.header {
+  /* 月とか年とか */
+  color: white;
+  font-weight: bold;
+}
+
+.day:focus{
+  color:white;
+  font-weight: normal;
+}
+
+.button:hover{
+  color:blue;
+}
+
+.button:disabled{
+  color:darkred;
+}
+
+/* calendar.button,
+calendar.button:focus {
+  color: alpha(@theme_fg_color, 0.45);
+  border: none;
+  background-image: none;
+  background-color: transparent;
+}
+
+calendar.button:hover {
+  color: @theme_fg_color;
+}
+
+calendar.button:disabled {
+  color: @insensitive_fg_color;
+}
+ */
+
+.day:indeterminate {
+  /* 当月以外 */
+  color:gray;
+  font-weight: normal;
+}
+
+.highlight {
+  /* 週の行 */
+  background-color:green;
+  color:white;
+  font-weight: bold; 
+}
