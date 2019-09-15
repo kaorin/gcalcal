@@ -164,15 +164,17 @@
             <signal name="prev-month" handler="on_calCalender_prev_month" swapped="no"/>
             <signal name="prev-year" handler="on_calCalender_prev_year" swapped="no"/>
             <style>
-              <class name="calendar"/>
-              <class name="day"/>
-              <class name="selected"/>
               <class name="header"/>
               <class name="indeterminate"/>
               <class name="focus"/>
               <class name="hover"/>
               <class name="disabled"/>
               <class name="view"/>
+              <class name="button"/>
+              <class name="insensitive"/>
+              <class name="active"/>
+              <class name="selected"/>
+              <class name="day"/>
             </style>
           </object>
           <packing>
@@ -188,6 +190,7 @@
             <property name="shadow_type">in</property>
             <child>
               <object class="GtkTextView" id="txtSchedule">
+                <property name="name">txtSchedule</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="editable">False</property>
@@ -199,6 +202,9 @@
                 </style>
               </object>
             </child>
+            <style>
+              <class name="info"/>
+            </style>
           </object>
           <packing>
             <property name="expand">True</property>

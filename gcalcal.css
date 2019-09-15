@@ -3,10 +3,24 @@
   font-weight: normal;
 } */
 
+.view:active {
+  color:white;
+  font-weight: bold;
+  background-color: greenyellow;
+  border-radius: 5px;
+}
+
 .day:selected {
   color: #ffffff;
   background-color: #4a90d9;
   padding: 0.4em;
+  border-radius: 5px;
+}
+
+.day:active {
+  color:white;
+  font-weight: bold;
+  background-color: greenyellow;
   border-radius: 5px;
 }
 
@@ -37,16 +51,19 @@ event-widget{
   font-weight: normal;
 }
 
-.view{
+.view {
   color:white;
   font-weight: normal;
 }
 
-.button:hover{
+/* .button {
+  color:darkred;
+} */
+.button:hover {
   color:blue;
 }
 
-.button:disabled{
+.button:disabled {
   color:darkred;
 }
 
@@ -78,4 +95,9 @@ calendar.button:disabled {
   background-color:green;
   color:white;
   font-weight: bold; 
+}
+
+#txtSchedule
+,info {
+  color:white;
 }
