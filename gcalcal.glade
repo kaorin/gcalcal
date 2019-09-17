@@ -186,10 +186,41 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lblMonth">
+                  <object class="GtkBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">9月</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkEventBox" id="evMonth">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <signal name="button-press-event" handler="on_evMonth_button_press_event" swapped="no"/>
+                        <child>
+                          <object class="GtkLabel" id="lblMonth">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">9月</property>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBoxText" id="cmbMonth">
+                        <property name="can_focus">False</property>
+                        <property name="no_show_all">True</property>
+                        <signal name="changed" handler="on_cmbMonth_changed" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -251,10 +282,41 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lblYear">
+                  <object class="GtkBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">2019</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkEventBox" id="evYear">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <signal name="button-press-event" handler="on_evYear_button_press_event" swapped="no"/>
+                        <child>
+                          <object class="GtkLabel" id="lblYear">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">2019</property>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBoxText" id="cmbYear">
+                        <property name="can_focus">False</property>
+                        <property name="no_show_all">True</property>
+                        <signal name="changed" handler="on_cmbYear_changed" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -283,6 +345,9 @@
                     <property name="position">6</property>
                   </packing>
                 </child>
+                <style>
+                  <class name="topbar"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>

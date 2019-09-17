@@ -112,6 +112,14 @@ class myCalendar:
         self.schedule = self.wMain.get_object ("txtInfoText")
         self.lblMonth = self.wMain.get_object ("lblMonth")
         self.lblYear = self.wMain.get_object ("lblYear")
+        self.cmbMonth = self.wMain.get_object ("cmbMonth")
+        self.cmbYear = self.wMain.get_object ("cmbYear")
+        for month_name in calendar.month_name[1:]:
+            self.cmbMonth.append(None, month_name)
+        self.cmbMonth.set_active(date.today().month - 1)
+        for y in range(-5, 5):
+            self.cmbYear.append(str(date.today().year + y), str(date.today().year + y))
+        self.cmbYear.set_active_id(str(date.today().year))
         lblNo = 0
         self.days = [[0 for i in range(7)] for j in range(7)]
         for row in range(6):
@@ -147,6 +155,10 @@ class myCalendar:
             "on_evMonthUp_button_release_event": self.on_evMonthUp_button_release_event,
             "on_evYearDonw_button_release_event": self.on_evYearDonw_button_release_event,
             "on_evYearUp_button_release_event": self.on_evYearUp_button_release_event,
+            "on_evMonth_button_press_event": self.on_evMonth_button_press_event,
+            "on_evYear_button_press_event": self.on_evYear_button_press_event,
+            "on_cmbMonth_changed": self.on_cmbMonth_changed,
+            "on_cmbYear_changed": self.on_cmbYear_changed,
         }
         self.wMain.connect_signals(dic)
         xpos = conf.GetOption("x_pos")
@@ -219,6 +231,7 @@ class myCalendar:
     def initDayStyle(self):
         for row in range(6):
             for col in range(7):
+                self.days[row][col].set_has_tooltip(False)
                 css_context = self.days[row][col].get_style_context()
                 css_context.remove_class("today")
                 css_context.remove_class("holiday")
@@ -301,6 +314,52 @@ class myCalendar:
         self.schedule.set_opacity(self.opacity)
         return
 
+    def on_evMonth_button_press_event(self, widget,event):
+        if self.cmbMonth.get_no_show_all() == True:
+            self.cmbMonth.set_no_show_all(False)
+            self.cmbYear.set_no_show_all(False)
+            self.mainWindow.show_all()
+        else:
+            self.cmbMonth.set_no_show_all(True)
+            self.cmbYear.set_no_show_all(True)
+            self.cmbMonth.hide()
+            self.cmbYear.hide()
+            self.mainWindow.show_all()
+        return
+
+    def on_evYear_button_press_event(self, widget,event):
+        if self.cmbYear.get_no_show_all() == True:
+            self.cmbMonth.set_no_show_all(False)
+            self.cmbYear.set_no_show_all(False)
+            self.mainWindow.show_all()
+        else:
+            self.cmbMonth.set_no_show_all(True)
+            self.cmbYear.set_no_show_all(True)
+            self.cmbMonth.hide()
+            self.cmbYear.hide()
+            self.mainWindow.show_all()
+        return
+        
+    def on_cmbMonth_changed(self, widget):
+        self.cmbMonth.set_no_show_all(True)
+        self.cmbYear.set_no_show_all(True)
+        self.cmbMonth.hide()
+        self.cmbYear.hide()
+        self.mainWindow.show_all()
+        self.month = self.cmbMonth.get_active() + 1
+        self.makeCalendar(self.year, self.month)
+        return
+        
+    def on_cmbYear_changed(self, widget):
+        self.cmbMonth.set_no_show_all(True)
+        self.cmbYear.set_no_show_all(True)
+        self.cmbMonth.hide()
+        self.cmbYear.hide()
+        self.mainWindow.show_all()
+        self.year = int(self.cmbYear.get_active_text())
+        self.makeCalendar(self.year, self.month)
+        return
+
     def _saveConf(self):
         conf = ConfigXML(False)
         (xpos, ypos) = self.mainWindow.get_position()
@@ -327,21 +386,23 @@ class myCalendar:
         return
 
     def setEventDay(self):
-        self.montStart = date(self.year, self.month,1)
+        if len(EVENT_CALENDAR) == 0:
+            return
+        montStart = date(self.year, self.month,1)
         _, lastday = calendar.monthrange(self.year, self.month)
-        self.montFinish = date(self.year, self.month,lastday)
-        schedules = self.res_cmd_no_lfeed(GCAL_PATH + "gcalcli " + "--calendar \"" + EVENT_CALENDAR + "\" --nocolor agenda " + self.montStart.isoformat() + " " + self.montFinish.isoformat())
+        montFinish = date(self.year, self.month,lastday)
+        schedules = self.res_cmd_no_lfeed(GCAL_PATH + "gcalcli " + "--calendar \"" + EVENT_CALENDAR + "\" --nocolor agenda " + montStart.isoformat() + " " + montFinish.isoformat())
         for sch in schedules:
-            if len(sch) > 0:
+            if len(sch) > 0 and sch != "No Events Found...":
                 info = sch.split()
                 if len(info) > 2:
                     self.setMarked(int(info[2]), " ".join(info[3:]))
     
     def setEventDayList(self):
-        self.montStart = date(self.year, self.month,1)
+        montStart = date(self.year, self.month,1)
         _, lastday = calendar.monthrange(self.year, self.month)
-        self.montFinish = date(self.year, self.month,lastday)
-        schedules = self.res_cmd_no_lfeed(GCAL_PATH + "gcalcli --nocolor agenda " + self.montStart.isoformat() + " " + self.montFinish.isoformat())
+        montFinish = date(self.year, self.month,lastday)
+        schedules = self.res_cmd_no_lfeed(GCAL_PATH + "gcalcli --nocolor agenda " + montStart.isoformat() + " " + montFinish.isoformat())
         text = ""
         for sch in schedules:
             if len(sch) > 0:
@@ -349,10 +410,12 @@ class myCalendar:
         self.txtBuffer.set_text(text)
 
     def setHolidayList(self):
-        self.montStart = date(self.year, self.month,1)
+        if len(HOLIDAY_CALENDAR) == 0:
+            return
+        montStart = date(self.year, self.month,1)
         _, lastday = calendar.monthrange(self.year, self.month)
-        self.montFinish = date(self.year, self.month,lastday)
-        schedules = self.res_cmd_no_lfeed(GCAL_PATH + "gcalcli " + "--calendar \"" + HOLIDAY_CALENDAR + "\" --nocolor agenda " + self.montStart.isoformat() + " " + self.montFinish.isoformat())
+        montFinish = date(self.year, self.month,lastday)
+        schedules = self.res_cmd_no_lfeed(GCAL_PATH + "gcalcli " + "--calendar \"" + HOLIDAY_CALENDAR + "\" --nocolor agenda " + montStart.isoformat() + " " + montFinish.isoformat())
         for sch in schedules:
             if len(sch) > 0:
                 info = sch.split()
