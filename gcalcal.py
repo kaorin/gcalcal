@@ -13,7 +13,7 @@ import base64
 import subprocess
 import calendar
 import datetime
-from datetime import date
+from datetime import date, timedelta
 from os.path import abspath, dirname, join
 
 WHERE_AM_I = abspath(dirname(__file__))
@@ -102,12 +102,20 @@ class myCalendar:
         conf = ConfigXML(True)
         #メインウィンドウを作成
         self.wMain = Gtk.Builder()
-        self.wMain.add_from_file(os.path.dirname(os.path.abspath(__file__)) + "/gcalcal.glade")
+        self.wMain.add_from_file(os.path.dirname(os.path.abspath(__file__)) + "/gcalcal2.glade")
         self.context_menu =  self.wMain.get_object ("mMenu")
-        self.mainWindow = self.wMain.get_object ("MainWindow")
+        self.mainWindow = self.wMain.get_object ("wCalendar")
         self.calCalendar = self.wMain.get_object ("calCalendar")
-        self.txtBuffer = self.wMain.get_object ("txtBuffer")
-        self.schedule = self.wMain.get_object ("txtSchedule")
+        self.txtBuffer = self.wMain.get_object ("txtInfoBuffer")
+        self.schedule = self.wMain.get_object ("txtInfoText")
+        self.lblMonth = self.wMain.get_object ("lblMonth")
+        self.lblYear = self.wMain.get_object ("lblYear")
+        lblNo = 0
+        self.days = [[0 for i in range(7)] for j in range(7)]
+        for row in range(0,6):
+            for col in range(0,7):
+                self.days[row][col] = self.wMain.get_object ("lbl{:02d}".format(lblNo))
+                lblNo += 1
         # GdkColormap to GdkVisual
         # なんか透過ウィンドウを作成するのはこれがミソっぽい
         screen = self.mainWindow.get_screen()
@@ -140,6 +148,10 @@ class myCalendar:
             "on_mi090_activate" : self.on_miOpacity_activate,
             "on_mi100_activate" : self.on_miOpacity_activate,
             "on_MainWindow_focus_out_event": self.on_MainWindow_focus_out_event,
+            "on_lblMonthDown_button_release_event": self.on_lblMonthDown_button_release_event,
+            "on_lblMonthUp_button_release_event": self.on_lblMonthUp_button_release_event,
+            "on_lblYearDonw_button_release_event": self.on_lblYearDonw_button_release_event,
+            "on_lblYearUp_button_release_event": self.on_lblYearUp_button_release_event,
         }
         self.wMain.connect_signals(dic)
         xpos = conf.GetOption("x_pos")
@@ -156,11 +168,51 @@ class myCalendar:
         self.schedule.set_opacity(self.opacity)
         self.mainWindow.set_decorated(self.decoration)
         now = date.today()
-        self.calCalendar.select_month(now.year, now.month)
-        self.calCalendar.select_day(now.day)
-        self.setEventDay()
+        self.month = now.month
+        self.year = now.year
+        # self.calCalendar.select_month(now.year, now.month)
+        # self.calCalendar.select_day(now.day)
+        # self.setEventDay()
         self.set_style()
+        self.makeCalendar(now.year, now.month)
         self.mainWindow.show_all()
+
+    def makeCalendar(self,year,month):
+        calendar.setfirstweekday(calendar.SUNDAY)
+        self.lblMonth.set_text(calendar.month_name[month])
+        self.lblYear.set_text(str(year))
+        cal = calendar.monthcalendar(year, month)
+        firstWeek, lastday = calendar.monthrange(year,month)
+        prevdate = date(year,month,1) - timedelta(days=1)
+        nextdate = date(year,month,lastday) + timedelta(days=1)
+        prevcal = calendar.monthcalendar(prevdate.year, prevdate.month)
+        nextcal = calendar.monthcalendar(nextdate.year, nextdate.month)
+        start = 0
+        if firstWeek == 6:
+            start = 1
+        calRow = 0
+        for row in range(start, 6):
+            for col in range(0,7):
+                if cal[calRow][col] != 0:
+                    self.days[row][col].set_text(str(cal[calRow][col]))
+                    if date.today() == date(year, month, cal[calRow][col]):
+                        css_context = self.days[row][col].get_style_context()
+                        css_context.add_class("today")
+
+            calRow += 1
+        prevLastRow = len(prevcal)
+        for col in range(0,7):
+            if prevcal[prevLastRow - 1][col] != 0:
+                self.days[0][col].set_text(str(prevcal[prevLastRow - 1][col]))
+                css_context = self.days[0][col].get_style_context()
+                css_context.add_class("prev_month")
+        for col in range(0,7):
+            if nextcal[0][col] != 0:
+                self.days[5][col].set_text(str(nextcal[0][col]))
+                css_context = self.days[5][col].get_style_context()
+                css_context.add_class("next_month")
+        
+
 
     def on_MainWindow_button_press_event(self,widget,event):
         if event.type == Gdk.EventType.BUTTON_PRESS and event.button == 3:
