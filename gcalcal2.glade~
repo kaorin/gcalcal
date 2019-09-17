@@ -226,6 +226,9 @@
   <object class="GtkTextBuffer" id="txtInfoBuffer"/>
   <object class="GtkWindow" id="wCalendar">
     <property name="can_focus">False</property>
+    <signal name="button-press-event" handler="on_wCalendar_button_press_event" swapped="no"/>
+    <signal name="destroy" handler="on_wCalendar_destroy" swapped="no"/>
+    <signal name="realize" handler="on_wCalendar_realize" swapped="no"/>
     <child>
       <placeholder/>
     </child>
@@ -244,12 +247,19 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkLabel" id="lblMonthDown">
+                  <object class="GtkEventBox" id="evMonthDown">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">8</property>
-                    <property name="margin_right">8</property>
-                    <property name="label" translatable="yes">&lt;</property>
+                    <signal name="button-release-event" handler="on_evMonthDown_button_release_event" swapped="no"/>
+                    <child>
+                      <object class="GtkLabel" id="lblMonthDown">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_left">8</property>
+                        <property name="margin_right">8</property>
+                        <property name="label" translatable="yes">&lt;</property>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -270,12 +280,19 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lblMonthUp">
+                  <object class="GtkEventBox" id="evMonthUp">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">8</property>
-                    <property name="margin_right">8</property>
-                    <property name="label" translatable="yes">&gt;</property>
+                    <signal name="button-release-event" handler="on_evMonthUp_button_release_event" swapped="no"/>
+                    <child>
+                      <object class="GtkLabel" id="lblMonthUp">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_left">8</property>
+                        <property name="margin_right">8</property>
+                        <property name="label" translatable="yes">&gt;</property>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -295,12 +312,19 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lblYearDonw">
+                  <object class="GtkEventBox" id="evYearDonw">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">8</property>
-                    <property name="margin_right">8</property>
-                    <property name="label" translatable="yes">&lt;</property>
+                    <signal name="button-release-event" handler="on_evYearDonw_button_release_event" swapped="no"/>
+                    <child>
+                      <object class="GtkLabel" id="lblYearDonw">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_left">8</property>
+                        <property name="margin_right">8</property>
+                        <property name="label" translatable="yes">&lt;</property>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -321,12 +345,19 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lblYearUp">
+                  <object class="GtkEventBox" id="evYearUp">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">8</property>
-                    <property name="margin_right">8</property>
-                    <property name="label" translatable="yes">&gt;</property>
+                    <signal name="button-release-event" handler="on_evYearUp_button_release_event" swapped="no"/>
+                    <child>
+                      <object class="GtkLabel" id="lblYearUp">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_left">8</property>
+                        <property name="margin_right">8</property>
+                        <property name="label" translatable="yes">&gt;</property>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
