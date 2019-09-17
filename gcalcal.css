@@ -1,38 +1,40 @@
-/* .day {
-  color:black;
-} */
+.day {
+  color:white;
+}
 
-.sun,
-.holiday{
+.sun{
   color:red; 
 }
+
 .sat {
-  color:blue; 
+  color:lightblue; 
 }
 
 .prev_month,
 .next_month {
-  color:lightgray;
+  color:gray;
 }
 
 .marked {
-  color:white;
+  color:black;
   font-weight: bold;
   background-color: greenyellow;
   border-radius: 5px;
 }
 
+.holiday{
+  color:red; 
+}
+
 .selected {
   color: #ffffff;
   background-color: #4a90d9;
-  padding: 0.4em;
   border-radius: 5px;
 }
 
 .today {
-  color: #ffffff;
+  color: black;
   background-color: yellow;
-  padding: 0.4em;
   border-radius: 5px;
 }
 
@@ -42,7 +44,13 @@
   font-weight: bold;
 }
 
+.weekLine {
+  color:white;
+  background-color: green;
+  font-weight: bold;
+}
+
 #txtSchedule
-,info {
+.view {
   color:white;
 }

@@ -18,6 +18,8 @@ from os.path import abspath, dirname, join
 
 WHERE_AM_I = abspath(dirname(__file__))
 GCAL_PATH="~/.local/bin/"
+EVENT_CALENDAR="kaoru.konno@gmail.com"
+HOLIDAY_CALENDAR="日本の祝日"
 
 class ConfigXML:
     OptionList = {   "x_pos":"40",
@@ -102,7 +104,7 @@ class myCalendar:
         conf = ConfigXML(True)
         #メインウィンドウを作成
         self.wMain = Gtk.Builder()
-        self.wMain.add_from_file(os.path.dirname(os.path.abspath(__file__)) + "/gcalcal2.glade")
+        self.wMain.add_from_file(os.path.dirname(os.path.abspath(__file__)) + "/gcalcal.glade")
         self.context_menu =  self.wMain.get_object ("mMenu")
         self.mainWindow = self.wMain.get_object ("wCalendar")
         self.calCalendar = self.wMain.get_object ("calCalendar")
@@ -163,14 +165,8 @@ class myCalendar:
         now = date.today()
         self.month = now.month
         self.year = now.year
-        # self.calCalendar.select_month(now.year, now.month)
-        # self.calCalendar.select_day(now.day)
-        # self.setEventDay()
         self.set_style()
         self.makeCalendar(now.year, now.month)
-        self.setHoliday(16)
-        self.setHoliday(23)
-        self.setHoliday(30)
         self.mainWindow.show_all()
 
     def makeCalendar(self,year,month):
@@ -216,6 +212,9 @@ class myCalendar:
                     self.days[lastrow+row][col].set_text(str(nextcal[row][col]))
                     css_context = self.days[lastrow+row][col].get_style_context()
                     css_context.add_class("next_month")
+        self.setEventDay()
+        self.setEventDayList()
+        self.setHolidayList()
         
     def initDayStyle(self):
         for row in range(6):
@@ -237,17 +236,32 @@ class myCalendar:
                         return self.days[row][col]
         return None
 
-    def setHoliday(self, day):
+    def tooltip_callback(self, widget, x, y, keyboard_mode, tooltip):
+        text = widget.get_tooltip_text()
+        tooltip.set_text(text)
+        return True
+
+    def setHoliday(self, day, text):
         day = self.findDayLabel(day)
         css_context = day.get_style_context()
         css_context.add_class("holiday")
         day.set_has_tooltip(True)
-        day.set_tooltip_text("holiday")
+        day.set_tooltip_text(text)
+        day.connect("query-tooltip", self.tooltip_callback)
 
+
+    def setMarked(self, day, text):
+        day = self.findDayLabel(day)
+        css_context = day.get_style_context()
+        css_context.add_class("marked")
+        day.set_has_tooltip(True)
+        day.set_tooltip_text(text)
+        day.connect("query-tooltip", self.tooltip_callback)
 
     def on_evMonthDown_button_release_event(self, wdget, event):
         prevdate = date(self.year,self.month,1) - timedelta(days=1)
         self.month = prevdate.month
+        self.year = prevdate.year
         self.makeCalendar(self.year, self.month)
         return
 
@@ -255,6 +269,7 @@ class myCalendar:
         firstWeek, lastday = calendar.monthrange(self.year, self.month)
         nextdate = date(self.year,self.month,lastday) + timedelta(days=1)
         self.month = nextdate.month
+        self.year = nextdate.year
         self.makeCalendar(self.year, self.month)
         return
 
@@ -312,22 +327,38 @@ class myCalendar:
         return
 
     def setEventDay(self):
-        (year, month, day) = self.calCalendar.get_date()
-        self.montStart = date(year,month + 1,1)
-        _, lastday = calendar.monthrange(year,month + 1)
-        self.montFinish = date(year,month + 1,lastday)
-        schedules = self.res_cmd_no_lfeed(GCAL_PATH + "gcalcli --nocolor agenda " + self.montStart.isoformat() + " " + self.montFinish.isoformat())
-        text = ""
-        # イベントマークをクリア
-        self.calCalendar.clear_marks()
+        self.montStart = date(self.year, self.month,1)
+        _, lastday = calendar.monthrange(self.year, self.month)
+        self.montFinish = date(self.year, self.month,lastday)
+        schedules = self.res_cmd_no_lfeed(GCAL_PATH + "gcalcli " + "--calendar \"" + EVENT_CALENDAR + "\" --nocolor agenda " + self.montStart.isoformat() + " " + self.montFinish.isoformat())
         for sch in schedules:
             if len(sch) > 0:
                 info = sch.split()
                 if len(info) > 2:
-                    self.calCalendar.mark_day(int(info[2]))
+                    self.setMarked(int(info[2]), " ".join(info[3:]))
+    
+    def setEventDayList(self):
+        self.montStart = date(self.year, self.month,1)
+        _, lastday = calendar.monthrange(self.year, self.month)
+        self.montFinish = date(self.year, self.month,lastday)
+        schedules = self.res_cmd_no_lfeed(GCAL_PATH + "gcalcli --nocolor agenda " + self.montStart.isoformat() + " " + self.montFinish.isoformat())
+        text = ""
+        for sch in schedules:
+            if len(sch) > 0:
                 text += sch + "\n"
         self.txtBuffer.set_text(text)
-    
+
+    def setHolidayList(self):
+        self.montStart = date(self.year, self.month,1)
+        _, lastday = calendar.monthrange(self.year, self.month)
+        self.montFinish = date(self.year, self.month,lastday)
+        schedules = self.res_cmd_no_lfeed(GCAL_PATH + "gcalcli " + "--calendar \"" + HOLIDAY_CALENDAR + "\" --nocolor agenda " + self.montStart.isoformat() + " " + self.montFinish.isoformat())
+        for sch in schedules:
+            if len(sch) > 0:
+                info = sch.split()
+                if len(info) > 2:
+                    self.setHoliday(int(info[2]), " ".join(info[3:]))
+
     def on_calCalender_day_selected(self,widget):
         return
 
