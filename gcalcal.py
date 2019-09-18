@@ -601,6 +601,8 @@ class myCalendar:
         _, lastday = calendar.monthrange(self.year, self.month)
         montFinish = date(self.year, self.month,lastday)
         schedules = self.res_cmd_no_lfeed(GCAL_PATH + "gcalcli --nocolor agenda --tsv " + montStart.isoformat() + " " + montFinish.isoformat())
+        dict.fromkeys(schedules)
+        schedules = list(dict.fromkeys(schedules))
         self.txtBuffer.set_text("")
         textIter = self.txtBuffer.get_start_iter()
         for sch in schedules:
