@@ -194,9 +194,9 @@ class myCalendar:
         EVENT_CALENDAR = conf.GetOption("event_calendar")
         HOLIDAY_CALENDAR = conf.GetOption("holiday_calendar")
         self.mainWindow.move(int(xpos), int(ypos))
-        self.canselEvent = True
+        self.cancalEvent = True
         self.mainWindow.resize(self.w,self.h)
-        self.canselEvent = False
+        self.cancalEvent = False
         self.opacity = float(conf.GetOption("opacity").replace("%","")) / 100
         self.sclOpecity.set_value(self.opacity * 100)
         self.mainWindow.set_opacity(self.opacity)
@@ -541,7 +541,7 @@ class myCalendar:
         Arguments:
             widget {[type]} -- [description]
         """
-        if self.canselEvent == True:
+        if self.cancalEvent == True:
             return
         self._saveConf()
         return
@@ -554,10 +554,10 @@ class myCalendar:
             widget {[type]} -- [description]
             event {[type]} -- [description]
         """
-        if self.canselEvent == True:
+        if self.cancalEvent == True:
             return
         self._saveConf()
-        self.canselEvent = False
+        self.cancalEvent = False
         return
 
     def setEventDay(self):
@@ -569,16 +569,13 @@ class myCalendar:
         montStart = date(self.year, self.month,1)
         _, lastday = calendar.monthrange(self.year, self.month)
         montFinish = date(self.year, self.month,lastday)
-        schedules = self.res_cmd_no_lfeed(GCAL_PATH + "gcalcli " + "--calendar \"" + EVENT_CALENDAR + "\" --nocolor agenda " + montStart.isoformat() + " " + montFinish.isoformat())
+        schedules = self.res_cmd_no_lfeed(GCAL_PATH + "gcalcli " + "--calendar \"" + EVENT_CALENDAR + "\" --nocolor --tsv agenda " + montStart.isoformat() + " " + montFinish.isoformat())
         day = 0
         for sch in schedules:
             if len(sch) > 0 and sch != "No Events Found...":
-                info = sch.split()
-                if len(info) > 2:
-                    day = int(info[2])
-                    self.setMarked(day, " ".join(info[3:]))
-                else:
-                    self.setMarked(day, info)
+                info = sch.split("\t")
+                day = date(info[0])
+                self.setMarked(day.day, info[1] + " " + " ".join(info[4:]))
     
     def setEventDayList(self):
         """[summary]
@@ -587,11 +584,13 @@ class myCalendar:
         montStart = date(self.year, self.month,1)
         _, lastday = calendar.monthrange(self.year, self.month)
         montFinish = date(self.year, self.month,lastday)
-        schedules = self.res_cmd_no_lfeed(GCAL_PATH + "gcalcli --nocolor agenda " + montStart.isoformat() + " " + montFinish.isoformat())
+        schedules = self.res_cmd_no_lfeed(GCAL_PATH + "gcalcli --nocolor --tsv agenda " + montStart.isoformat() + " " + montFinish.isoformat())
         text = ""
         for sch in schedules:
             if len(sch) > 0:
-                text += sch + "\n"
+                info = sch.split("\t")
+                day = date(info[0])
+                text += "{:02d/:02d }".format(day.month,day.day) + iunfo[1] + " "+ " ".join(info[4:]) + "\n"
         self.txtBuffer.set_text(text)
 
     def setHolidayList(self):
@@ -603,12 +602,12 @@ class myCalendar:
         montStart = date(self.year, self.month,1)
         _, lastday = calendar.monthrange(self.year, self.month)
         montFinish = date(self.year, self.month,lastday)
-        schedules = self.res_cmd_no_lfeed(GCAL_PATH + "gcalcli " + "--calendar \"" + HOLIDAY_CALENDAR + "\" --nocolor agenda " + montStart.isoformat() + " " + montFinish.isoformat())
+        schedules = self.res_cmd_no_lfeed(GCAL_PATH + "gcalcli " + "--calendar \"" + HOLIDAY_CALENDAR + "\" --nocolor --tsv agenda " + montStart.isoformat() + " " + montFinish.isoformat())
         for sch in schedules:
             if len(sch) > 0:
-                info = sch.split()
-                if len(info) > 2:
-                    self.setHoliday(int(info[2]), " ".join(info[3:]))
+                info = sch.split("\t")
+                day = date(info[0])
+                self.setHoliday(day.day, info[1] + " " + " ".join(info[4:]))
 
     def on_miExit_activate(self,widget):
         """[summary]
