@@ -17,7 +17,7 @@ from datetime import date, timedelta
 from os.path import abspath, dirname, join
 
 WHERE_AM_I = abspath(dirname(__file__))
-GCAL_PATH="~/.local/bin/"
+GCAL_PATH="~/.local/bin"
 EVENT_CALENDAR="kaoru.konno@gmail.com"
 HOLIDAY_CALENDAR="日本の祝日"
 
@@ -28,6 +28,9 @@ class ConfigXML:
                      "height":"200",
                      "opacity":"100%",
                      "decoration":"True",
+                     "gcal_path":"~/.local/bin",
+                     "event_calendar":"kaoru.konno@gmail.com",
+                     "holiday_calendar":"日本の祝日",
     }
     AppName = "Gcalcal"
     ConfigPath = "/.config/Gcalcal.xml"
@@ -107,6 +110,9 @@ class myCalendar:
         初期化
         """
 
+        global GCAL_PATH
+        global EVENT_CALENDAR
+        global HOLIDAY_CALENDAR
         conf = ConfigXML(True)
         #メインウィンドウを作成
         self.wMain = Gtk.Builder()
@@ -133,6 +139,13 @@ class myCalendar:
                 self.days[row][col] = self.wMain.get_object ("lbl{:02d}".format(lblNo))
                 self.wMain.get_object("ev{:02d}".format(lblNo)).connect("button_release_event", self.on_day_button_release_event)
                 lblNo += 1
+        # 設定ダイアログ
+        self.settingDialog = self.wMain.get_object ("dlgSetting")
+        self.btnSettingOK = self.wMain.get_object("btnSettingOK")
+        self.btnSettingCancel = self.wMain.get_object("btnSettingCancel")
+        self.btnFileChoose = self.wMain.get_object ("btnFileChoose")
+        self.txtEventCalendar = self.wMain.get_object ("txtEventCalendar")
+        self.txtHolidayCalendar = self.wMain.get_object ("txtHolidayCalendar")
         # GdkColormap to GdkVisual
         # なんか透過ウィンドウを作成するのはこれがミソっぽい
         screen = self.mainWindow.get_screen()
@@ -143,6 +156,7 @@ class myCalendar:
             print ("no Composited...")
         dic = {
             "on_miExit_activate" : self.on_miExit_activate,
+            "on_miSetting_activate" : self.on_miSetting_activate,
             "on_wCalendar_destroy" : self.on_wCalendar_destroy,
             "on_wCalendar_button_press_event" : self.on_wCalendar_button_press_event,
             "on_wCalendar_realize" : self.on_MainWindow_realize,
@@ -166,6 +180,8 @@ class myCalendar:
             "on_evYear_button_press_event": self.on_evYear_button_press_event,
             "on_cmbMonth_changed": self.on_cmbMonth_changed,
             "on_cmbYear_changed": self.on_cmbYear_changed,
+            "on_btnSettingOK_clicked": self.on_btnSettingOK_clicked,
+            "on_btnSettingCancel_clicked": self.on_btnSettingCancel_clicked,
         }
         self.wMain.connect_signals(dic)
         xpos = conf.GetOption("x_pos")
@@ -173,6 +189,9 @@ class myCalendar:
         self.w = int(conf.GetOption("width"))
         self.h = int(conf.GetOption("height"))
         self.decoration = eval(conf.GetOption("decoration"))
+        GCAL_PATH = conf.GetOption("gcal_path")
+        EVENT_CALENDAR = conf.GetOption("event_calendar")
+        HOLIDAY_CALENDAR = conf.GetOption("holiday_calendar")
         self.mainWindow.move(int(xpos), int(ypos))
         self.canselEvent = True
         self.mainWindow.resize(self.w,self.h)
@@ -495,6 +514,9 @@ class myCalendar:
         """[summary]
         設定保存
         """
+        global GCAL_PATH
+        global EVENT_CALENDAR
+        global HOLIDAY_CALENDAR
         conf = ConfigXML(False)
         (xpos, ypos) = self.mainWindow.get_position()
         (self.w, self.h) = self.mainWindow.get_size()
@@ -504,6 +526,9 @@ class myCalendar:
         conf.SetOption("height",self.h)
         conf.SetOption("opacity",str(self.opacity*100) + "%")
         conf.SetOption("decoration",str(self.decoration))
+        conf.SetOption("gcal_path", GCAL_PATH)
+        conf.SetOption("event_calendar", EVENT_CALENDAR)
+        conf.SetOption("holiday_calendar", HOLIDAY_CALENDAR)
         conf.Write()
 
     def on_MainWindow_realize(self, widget):
@@ -598,6 +623,45 @@ class myCalendar:
             widget {[type]} -- [description]
         """
         Gtk.main_quit()
+
+    def on_miSetting_activate(self, widget):
+        """[summary]
+        設定ダイアログを開く
+        Arguments:
+            widget {[type]} -- [description]
+        """
+        global GCAL_PATH
+        global EVENT_CALENDAR
+        global HOLIDAY_CALENDAR
+        self.btnFileChoose.set_current_folder(os.path.expanduser(GCAL_PATH))
+        self.txtEventCalendar.set_text(EVENT_CALENDAR)
+        self.txtHolidayCalendar.set_text(HOLIDAY_CALENDAR)
+        self.settingDialog.show_all()
+
+    def on_btnSettingOK_clicked(self, widget):
+        """[summary]
+        設定ダイアログのOKボタンイベント
+        設定を保存してダイアログを閉じる
+        Arguments:
+            widget {[type]} -- [description]
+        """
+        global GCAL_PATH
+        global EVENT_CALENDAR
+        global HOLIDAY_CALENDAR
+        GCAL_PATH = self.btnFileChoose.get_current_folder()
+        EVENT_CALENDAR = self.txtEventCalendar.get_text()
+        HOLIDAY_CALENDAR = self.txtHolidayCalendar.get_text()
+        self._saveConf()
+        self.settingDialog.hide()
+ 
+    def on_btnSettingCancel_clicked(self, widget):
+        """[summary]
+        設定ダイアログのキャンセルボタンイベント
+        ダイアログを閉じる
+        Arguments:
+            widget {[type]} -- [description]
+        """
+        self.settingDialog.hide()
 
     def res_cmd(self, cmd):
         """[summary]
