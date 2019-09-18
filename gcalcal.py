@@ -31,6 +31,9 @@ class ConfigXML:
                      "gcal_path":"",
                      "event_calendar":"xxx@gmail.com",
                      "holiday_calendar":"日本の祝日",
+                     "mdColor":"#FFFF00",
+                     "tmColor":"#80FF80",
+                     "textColor":"#FFFFFF",
     }
     AppName = "Gcalcal"
     ConfigPath = "/.config/Gcalcal.xml"
@@ -147,6 +150,9 @@ class myCalendar:
         self.txtEventCalendar = self.wMain.get_object ("txtEventCalendar")
         self.txtHolidayCalendar = self.wMain.get_object ("txtHolidayCalendar")
         self.sclOpecity = self.wMain.get_object ("sclOpecity")
+        self.btnMDColor = self.wMain.get_object ("btnMDColor")
+        self.btnTMColor = self.wMain.get_object ("btnTMColor")
+        self.btnTextColor = self.wMain.get_object ("btnTextColor")
         # GdkColormap to GdkVisual
         # なんか透過ウィンドウを作成するのはこれがミソっぽい
         screen = self.mainWindow.get_screen()
@@ -193,6 +199,9 @@ class myCalendar:
         GCAL_PATH = conf.GetOption("gcal_path")
         EVENT_CALENDAR = conf.GetOption("event_calendar")
         HOLIDAY_CALENDAR = conf.GetOption("holiday_calendar")
+        self.btnMDColor.set_color(Gdk.color_parse(conf.GetOption("mdColor")))
+        self.btnTMColor.set_color(Gdk.color_parse(conf.GetOption("tmColor")))
+        self.btnTextColor.set_color(Gdk.color_parse(conf.GetOption("textColor")))
         self.mainWindow.move(int(xpos), int(ypos))
         self.cancalEvent = True
         self.mainWindow.resize(self.w,self.h)
@@ -536,6 +545,9 @@ class myCalendar:
         conf.SetOption("gcal_path", GCAL_PATH)
         conf.SetOption("event_calendar", EVENT_CALENDAR)
         conf.SetOption("holiday_calendar", HOLIDAY_CALENDAR)
+        conf.SetOption("mdColor", self.btnMDColor.get_color().to_string())
+        conf.SetOption("tmColor",self.btnTMColor.get_color().to_string())
+        conf.SetOption("textColor",self.btnTextColor.get_color().to_string())
         conf.Write()
 
     def on_MainWindow_realize(self, widget):
@@ -589,13 +601,18 @@ class myCalendar:
         _, lastday = calendar.monthrange(self.year, self.month)
         montFinish = date(self.year, self.month,lastday)
         schedules = self.res_cmd_no_lfeed(GCAL_PATH + "gcalcli --nocolor agenda --tsv " + montStart.isoformat() + " " + montFinish.isoformat())
-        text = ""
+        self.txtBuffer.set_text("")
+        textIter = self.txtBuffer.get_start_iter()
         for sch in schedules:
             if len(sch) > 0:
                 info = sch.split("\t")
                 day = datetime.strptime(info[0], "%Y-%m-%d")
-                text += "{:02d}/{:02d} ".format(day.month,day.day) + info[1] + " "+ " ".join(info[4:]) + "\n"
-        self.txtBuffer.set_text(text)
+                self.txtBuffer.insert_markup(textIter, "<span foreground='" + self.btnMDColor.get_color().to_string() + "'>" + "{:02d}/{:02d}".format(day.month,day.day) + "</span> ",-1)
+                textIter = self.txtBuffer.get_end_iter()
+                self.txtBuffer.insert_markup(textIter, "<span foreground='" + self.btnTMColor.get_color().to_string() + "'>" + info[1]  + "</span> ",-1)
+                textIter = self.txtBuffer.get_end_iter()
+                self.txtBuffer.insert_markup(textIter, "<span foreground='" + self.btnTextColor.get_color().to_string() + "'>" + " ".join(info[4:]) + "</span> " + "\n", -1)
+                textIter = self.txtBuffer.get_end_iter()
 
     def setHolidayList(self):
         """[summary]
@@ -660,6 +677,7 @@ class myCalendar:
         HOLIDAY_CALENDAR = self.txtHolidayCalendar.get_text()
         self.opacity = self.sclOpecity.get_value() / 100
         self._saveConf()
+        self.setEventDayList()
         self.settingDialog.hide()
  
     def on_btnSettingCancel_clicked(self, widget):
