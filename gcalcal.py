@@ -522,6 +522,7 @@ class myCalendar:
         conf = ConfigXML(False)
         (xpos, ypos) = self.mainWindow.get_position()
         (self.w, self.h) = self.mainWindow.get_size()
+        GCAL_PATH = os.path.join(GCAL_PATH, '', '')
         conf.SetOption("x_pos",xpos)
         conf.SetOption("y_pos",ypos)
         conf.SetOption("width",self.w)
