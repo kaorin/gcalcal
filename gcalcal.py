@@ -146,6 +146,7 @@ class myCalendar:
         self.btnFileChoose = self.wMain.get_object ("btnFileChoose")
         self.txtEventCalendar = self.wMain.get_object ("txtEventCalendar")
         self.txtHolidayCalendar = self.wMain.get_object ("txtHolidayCalendar")
+        self.sclOpecity = self.wMain.get_object ("sclOpecity")
         # GdkColormap to GdkVisual
         # なんか透過ウィンドウを作成するのはこれがミソっぽい
         screen = self.mainWindow.get_screen()
@@ -197,6 +198,7 @@ class myCalendar:
         self.mainWindow.resize(self.w,self.h)
         self.canselEvent = False
         self.opacity = float(conf.GetOption("opacity").replace("%","")) / 100
+        self.sclOpecity.set_value(self.opacity * 100)
         self.mainWindow.set_opacity(self.opacity)
         self.schedule.set_opacity(self.opacity)
         self.mainWindow.set_decorated(self.decoration)
@@ -636,6 +638,7 @@ class myCalendar:
         self.btnFileChoose.set_current_folder(os.path.expanduser(GCAL_PATH))
         self.txtEventCalendar.set_text(EVENT_CALENDAR)
         self.txtHolidayCalendar.set_text(HOLIDAY_CALENDAR)
+        self.sclOpecity.set_value(self.opacity * 100)
         self.settingDialog.show_all()
 
     def on_btnSettingOK_clicked(self, widget):
@@ -651,6 +654,7 @@ class myCalendar:
         GCAL_PATH = self.btnFileChoose.get_current_folder()
         EVENT_CALENDAR = self.txtEventCalendar.get_text()
         HOLIDAY_CALENDAR = self.txtHolidayCalendar.get_text()
+        self.opacity = self.sclOpecity.get_value() / 100
         self._saveConf()
         self.settingDialog.hide()
  
