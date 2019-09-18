@@ -96,11 +96,17 @@ class ConfigXML:
             print ("Error Config Write")
 
 class myCalendar:
+    """[summary]
+    カレンダークラス
+    Returns:
+        [type] -- [description]
+    """
 
     def __init__(self):
+        """[summary]
+        初期化
         """
 
-        """
         conf = ConfigXML(True)
         #メインウィンドウを作成
         self.wMain = Gtk.Builder()
@@ -125,6 +131,7 @@ class myCalendar:
         for row in range(6):
             for col in range(7):
                 self.days[row][col] = self.wMain.get_object ("lbl{:02d}".format(lblNo))
+                self.wMain.get_object("ev{:02d}".format(lblNo)).connect("button_release_event", self.on_day_button_release_event)
                 lblNo += 1
         # GdkColormap to GdkVisual
         # なんか透過ウィンドウを作成するのはこれがミソっぽい
@@ -136,8 +143,8 @@ class myCalendar:
             print ("no Composited...")
         dic = {
             "on_miExit_activate" : self.on_miExit_activate,
-            "on_wCalendar_destroy" : self.on_MainWindow_destroy,
-            "on_wCalendar_button_press_event" : self.on_MainWindow_button_press_event,
+            "on_wCalendar_destroy" : self.on_wCalendar_destroy,
+            "on_wCalendar_button_press_event" : self.on_wCalendar_button_press_event,
             "on_wCalendar_realize" : self.on_MainWindow_realize,
             "on_miTitlebar_toggled" : self.on_miTitlebar_toggled,
             "on_mi010_activate" : self.on_miOpacity_activate,
@@ -150,7 +157,7 @@ class myCalendar:
             "on_mi080_activate" : self.on_miOpacity_activate,
             "on_mi090_activate" : self.on_miOpacity_activate,
             "on_mi100_activate" : self.on_miOpacity_activate,
-            "on_MainWindow_focus_out_event": self.on_MainWindow_focus_out_event,
+            "on_wCalendar_focus_out_event": self.on_wCalendar_focus_out_event,
             "on_evMonthDown_button_release_event": self.on_evMonthDown_button_release_event,
             "on_evMonthUp_button_release_event": self.on_evMonthUp_button_release_event,
             "on_evYearDonw_button_release_event": self.on_evYearDonw_button_release_event,
@@ -182,6 +189,12 @@ class myCalendar:
         self.mainWindow.show_all()
 
     def makeCalendar(self,year,month):
+        '''[summary]
+        カレンダー生成
+        Arguments:
+            year {[int]} -- [カレンダーの年]
+            month {[int]} -- [カレンダーの月]
+        '''
         self.initDayStyle()
         calendar.setfirstweekday(calendar.SUNDAY)
         self.lblMonth.set_text(calendar.month_name[month])
@@ -229,6 +242,9 @@ class myCalendar:
         self.setHolidayList()
         
     def initDayStyle(self):
+        """[summary]
+        カレンダー属性初期化
+        """
         for row in range(6):
             for col in range(7):
                 self.days[row][col].set_has_tooltip(False)
@@ -241,6 +257,14 @@ class myCalendar:
                 css_context.remove_class("marked")
 
     def findDayLabel(self, day):
+        """[summary]
+        指定日のカレンダーラベルコントロールの取得
+        Arguments:
+            day {[type]} -- [description]
+        
+        Returns:
+            [Gtk.Label] -- [指定日のラベルコントロール]
+        """
         for row in range(6):
             for col in range(7):
                 css_context = self.days[row][col].get_style_context()
@@ -250,11 +274,29 @@ class myCalendar:
         return None
 
     def tooltip_callback(self, widget, x, y, keyboard_mode, tooltip):
+        """[summary]
+        ツールチップ表示コールバック
+        Arguments:
+            widget {[type]} -- [description]
+            x {[type]} -- [description]
+            y {[type]} -- [description]
+            keyboard_mode {[type]} -- [description]
+            tooltip {[type]} -- [description]
+        
+        Returns:
+            [bool] -- [True：表示/False：非表示]]
+        """
         text = widget.get_tooltip_text()
         tooltip.set_text(text)
         return True
 
     def setHoliday(self, day, text):
+        """[summary]
+        祝日設定
+        Arguments:
+            day {[type]} -- [description]
+            text {[type]} -- [description]
+        """
         day = self.findDayLabel(day)
         css_context = day.get_style_context()
         css_context.add_class("holiday")
@@ -264,14 +306,31 @@ class myCalendar:
 
 
     def setMarked(self, day, text):
+        """[summary]
+        マーク指定
+        Arguments:
+            day {[type]} -- [description]
+            text {[type]} -- [description]
+        """
         day = self.findDayLabel(day)
         css_context = day.get_style_context()
-        css_context.add_class("marked")
-        day.set_has_tooltip(True)
-        day.set_tooltip_text(text)
-        day.connect("query-tooltip", self.tooltip_callback)
+        if css_context.has_class("marked"):
+            tooltip = day.get_tooltip_text()
+            tooltip +- "\n" + text
+            day.set_tooltip_text(tooltip)
+        else:
+            css_context.add_class("marked")
+            day.set_has_tooltip(True)
+            day.set_tooltip_text(text)
+            day.connect("query-tooltip", self.tooltip_callback)
 
     def on_evMonthDown_button_release_event(self, wdget, event):
+        """[summary]
+        前月ボタンクリックイベント
+        Arguments:
+            wdget {[type]} -- [description]
+            event {[type]} -- [description]
+        """
         prevdate = date(self.year,self.month,1) - timedelta(days=1)
         self.month = prevdate.month
         self.year = prevdate.year
@@ -279,6 +338,12 @@ class myCalendar:
         return
 
     def on_evMonthUp_button_release_event(self, wdget, event):
+        """[summary]
+        次月ボタンクリックイベント
+        Arguments:
+            wdget {[type]} -- [description]
+            event {[type]} -- [description]
+        """
         firstWeek, lastday = calendar.monthrange(self.year, self.month)
         nextdate = date(self.year,self.month,lastday) + timedelta(days=1)
         self.month = nextdate.month
@@ -287,27 +352,71 @@ class myCalendar:
         return
 
     def on_evYearDonw_button_release_event(self, wdget, event):
+        """[summary]
+        前年ボタンクリックイベント
+        Arguments:
+            wdget {[type]} -- [description]
+            event {[type]} -- [description]
+        """
         self.year -= 1
         self.makeCalendar(self.year, self.month)
         return
 
     def on_evYearUp_button_release_event(self, wdget, event):
+        """[summary]
+        次年ボタンクリックイベント
+        Arguments:
+            wdget {[type]} -- [description]
+            event {[type]} -- [description]
+        """
         self.year += 1
         self.makeCalendar(self.year, self.month)
         return
 
+    def on_day_button_release_event(self, widget, event):
+        """[summary]
+        日付ラベルクリックイベント
+        Arguments:
+            widget {[type]} -- [description]
+            event {[type]} -- [description]
+        """
+        day = widget.get_child()
+        if day != None:
+            css_context = day.get_style_context()
+            if css_context.has_class("prev_month"):
+                self.on_evMonthDown_button_release_event(widget, event)
+            if css_context.has_class("next_month"):
+                self.on_evMonthUp_button_release_event(widget, event)
+        return
 
-    def on_MainWindow_button_press_event(self,widget,event):
+    def on_wCalendar_button_press_event(self,widget,event):
+        """[summary]
+        メインウィンドウ上でのマウスボタンクリックイベント
+        右クリックメニューの表示
+        Arguments:
+            widget {[type]} -- [description]
+            event {[type]} -- [description]
+        """
         if event.type == Gdk.EventType.BUTTON_PRESS and event.button == 3:
             #右クリック
             self.context_menu.popup(None, None, None,None, event.button, event.time)
 
     def on_miTitlebar_toggled(self, widget):
+        """[summary]
+        タイトルバーを表示メニューイベントハンドラ
+        Arguments:
+            widget {[type]} -- [description]
+        """
         self.decoration = widget.get_active()
         self.mainWindow.set_decorated(self.decoration)
         return
 
     def on_miOpacity_activate(self, widget):
+        """[summary]
+        透明度指定メニューイベントハンドラ
+        Arguments:
+            widget {[type]} -- [description]
+        """
         menuStr = widget.get_child().get_text()
         self.opacity = float(menuStr.replace("%","")) / 100
         self.mainWindow.set_opacity(self.opacity)
@@ -315,6 +424,12 @@ class myCalendar:
         return
 
     def on_evMonth_button_press_event(self, widget,event):
+        """[summary]
+        月ラベルマウスボタンクリックイベント
+        Arguments:
+            widget {[type]} -- [description]
+            event {[type]} -- [description]
+        """
         if self.cmbMonth.get_no_show_all() == True:
             self.cmbMonth.set_no_show_all(False)
             self.cmbYear.set_no_show_all(False)
@@ -328,6 +443,12 @@ class myCalendar:
         return
 
     def on_evYear_button_press_event(self, widget,event):
+        """[summary]
+        年ラベルマウスボタンクリックイベント
+        Arguments:
+            widget {[type]} -- [description]
+            event {[type]} -- [description]
+        """
         if self.cmbYear.get_no_show_all() == True:
             self.cmbMonth.set_no_show_all(False)
             self.cmbYear.set_no_show_all(False)
@@ -341,6 +462,11 @@ class myCalendar:
         return
         
     def on_cmbMonth_changed(self, widget):
+        """[summary]
+        月コンボボックス選択イベントハンドラ
+        Arguments:
+            widget {[type]} -- [description]
+        """
         self.cmbMonth.set_no_show_all(True)
         self.cmbYear.set_no_show_all(True)
         self.cmbMonth.hide()
@@ -351,6 +477,11 @@ class myCalendar:
         return
         
     def on_cmbYear_changed(self, widget):
+        """[summary]
+        年コンボボックスイベントハンドラ
+        Arguments:
+            widget {[type]} -- [description]
+        """
         self.cmbMonth.set_no_show_all(True)
         self.cmbYear.set_no_show_all(True)
         self.cmbMonth.hide()
@@ -361,6 +492,9 @@ class myCalendar:
         return
 
     def _saveConf(self):
+        """[summary]
+        設定保存
+        """
         conf = ConfigXML(False)
         (xpos, ypos) = self.mainWindow.get_position()
         (self.w, self.h) = self.mainWindow.get_size()
@@ -373,12 +507,25 @@ class myCalendar:
         conf.Write()
 
     def on_MainWindow_realize(self, widget):
+        """[summary]
+        メインウィンドウ表示イベント
+        設定値を保存する
+        Arguments:
+            widget {[type]} -- [description]
+        """
         if self.canselEvent == True:
             return
         self._saveConf()
         return
 
-    def on_MainWindow_focus_out_event(self, widget, event):
+    def on_wCalendar_focus_out_event(self, widget, event):
+        """[summary]
+        メインウィンドウフォーカスアウトイベント
+        設定値を保存する
+        Arguments:
+            widget {[type]} -- [description]
+            event {[type]} -- [description]
+        """
         if self.canselEvent == True:
             return
         self._saveConf()
@@ -386,19 +533,29 @@ class myCalendar:
         return
 
     def setEventDay(self):
+        """[summary]
+        gcalcliから取得したイベントをカレンダーに設定
+        """
         if len(EVENT_CALENDAR) == 0:
             return
         montStart = date(self.year, self.month,1)
         _, lastday = calendar.monthrange(self.year, self.month)
         montFinish = date(self.year, self.month,lastday)
         schedules = self.res_cmd_no_lfeed(GCAL_PATH + "gcalcli " + "--calendar \"" + EVENT_CALENDAR + "\" --nocolor agenda " + montStart.isoformat() + " " + montFinish.isoformat())
+        day = 0
         for sch in schedules:
             if len(sch) > 0 and sch != "No Events Found...":
                 info = sch.split()
                 if len(info) > 2:
-                    self.setMarked(int(info[2]), " ".join(info[3:]))
+                    day = int(info[2])
+                    self.setMarked(day, " ".join(info[3:]))
+                else:
+                    self.setMarked(day, info)
     
     def setEventDayList(self):
+        """[summary]
+        gcalcliから取得したイベント情報をTextViewに設定
+        """
         montStart = date(self.year, self.month,1)
         _, lastday = calendar.monthrange(self.year, self.month)
         montFinish = date(self.year, self.month,lastday)
@@ -410,6 +567,9 @@ class myCalendar:
         self.txtBuffer.set_text(text)
 
     def setHolidayList(self):
+        """[summary]
+        gcalcliから取得した祝日をカレンダーに設定
+        """
         if len(HOLIDAY_CALENDAR) == 0:
             return
         montStart = date(self.year, self.month,1)
@@ -422,34 +582,58 @@ class myCalendar:
                 if len(info) > 2:
                     self.setHoliday(int(info[2]), " ".join(info[3:]))
 
-    def on_calCalender_day_selected(self,widget):
-        return
-
-    def on_calCalender_day_selected_double_click(self,widget):
-        return
-
-    def on_calCalender_month_changed(self,widget):
-        self.setEventDay()
-        return
-
     def on_miExit_activate(self,widget):
+        """[summary]
+        終了メニューのイベントハンドラ
+        Arguments:
+            widget {[type]} -- [description]
+        """
         self._saveConf()
         Gtk.main_quit()
 
-    def on_MainWindow_destroy(self,widget):
+    def on_wCalendar_destroy(self,widget):
+        """[summary]
+        ウィンドウ破棄のイベントハンドラ
+        Arguments:
+            widget {[type]} -- [description]
+        """
         Gtk.main_quit()
 
     def res_cmd(self, cmd):
+        """[summary]
+        cmdで指定されたコマンドをサブプロセスで実行し、結果をひとつの文字列で返却する
+        Arguments:
+            cmd {[type]} -- [description]
+        
+        Returns:
+            [type] -- [description]
+        """
         return subprocess.Popen(
             cmd, stdout=subprocess.PIPE,
             shell=True).communicate()[0].decode("utf-8", "ignore")
 
     def res_cmd_lfeed(self, cmd):
+        """[summary]
+        cmdで指定されたコマンドをサブプロセスで実行し、結果をリストで返す（末尾改行）
+        Arguments:
+            cmd {[type]} -- [description]
+        
+        Returns:
+            [type] -- [description]
+        """
         return subprocess.Popen(
             cmd, stdout=subprocess.PIPE,
             shell=True).stdout.readlines()
 
     def res_cmd_no_lfeed(self, cmd):
+        """[summary]
+        cmdで指定されたコマンドをサブプロセスで実行し、結果をリストで返す（末尾改行なし）
+        Arguments:
+            cmd {[type]} -- [description]
+        
+        Returns:
+            [type] -- [description]
+        """
         return [bytes(x).decode("utf-8", "ignore").rstrip("\n") for x in self.res_cmd_lfeed(cmd)]
 
     def set_style(self):

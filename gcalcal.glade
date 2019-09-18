@@ -144,6 +144,7 @@
     <property name="can_focus">False</property>
     <signal name="button-press-event" handler="on_wCalendar_button_press_event" swapped="no"/>
     <signal name="destroy" handler="on_wCalendar_destroy" swapped="no"/>
+    <signal name="focus-out-event" handler="on_wCalendar_focus_out_event" swapped="no"/>
     <signal name="realize" handler="on_wCalendar_realize" swapped="no"/>
     <child>
       <placeholder/>
@@ -363,7 +364,7 @@
                 <property name="margin_bottom">4</property>
                 <property name="homogeneous">True</property>
                 <child>
-                  <object class="GtkAccelLabel" id="lblSun">
+                  <object class="GtkLabel" id="lblSun">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_top">4</property>
@@ -501,16 +502,22 @@
                 <property name="can_focus">False</property>
                 <property name="homogeneous">True</property>
                 <child>
-                  <object class="GtkAccelLabel" id="lbl00">
+                  <object class="GtkEventBox" id="ev00">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="weekstr"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl00">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="weekstr"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -519,16 +526,22 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl01">
+                  <object class="GtkEventBox" id="ev01">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="weekstr"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl01">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="weekstr"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -537,16 +550,22 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl02">
+                  <object class="GtkEventBox" id="ev02">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="weekstr"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl02">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="weekstr"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -555,16 +574,22 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl03">
+                  <object class="GtkEventBox" id="ev03">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="weekstr"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl03">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="weekstr"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -573,13 +598,19 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl04">
+                  <object class="GtkEventBox" id="ev04">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
+                    <child>
+                      <object class="GtkLabel" id="lbl04">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -588,16 +619,22 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl05">
+                  <object class="GtkEventBox" id="ev05">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="weekstr"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl05">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="weekstr"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -606,16 +643,22 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl06">
+                  <object class="GtkEventBox" id="ev06">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="weekstr"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl06">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="weekstr"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -636,17 +679,23 @@
                 <property name="can_focus">False</property>
                 <property name="homogeneous">True</property>
                 <child>
-                  <object class="GtkAccelLabel" id="lbl07">
+                  <object class="GtkEventBox" id="ev07">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="sun"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl07">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="sun"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -655,17 +704,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl08">
+                  <object class="GtkEventBox" id="ev08">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="mon"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl08">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="mon"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -674,17 +729,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl09">
+                  <object class="GtkEventBox" id="ev09">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="tue"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl09">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="tue"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -693,17 +754,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl10">
+                  <object class="GtkEventBox" id="ev10">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="wed"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl10">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="wed"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -712,17 +779,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl11">
+                  <object class="GtkEventBox" id="ev11">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="thu"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl11">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="thu"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -731,17 +804,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl12">
+                  <object class="GtkEventBox" id="ev12">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="fri"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl12">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="fri"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -750,17 +829,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl13">
+                  <object class="GtkEventBox" id="ev13">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="sat"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl13">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="sat"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -781,17 +866,23 @@
                 <property name="can_focus">False</property>
                 <property name="homogeneous">True</property>
                 <child>
-                  <object class="GtkAccelLabel" id="lbl14">
+                  <object class="GtkEventBox" id="ev14">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="sun"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl14">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="sun"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -800,17 +891,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl15">
+                  <object class="GtkEventBox" id="ev15">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="mon"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl15">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="mon"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -819,17 +916,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl16">
+                  <object class="GtkEventBox" id="ev16">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="tue"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl16">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="tue"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -838,17 +941,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl17">
+                  <object class="GtkEventBox" id="ev17">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="wed"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl17">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="wed"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -857,17 +966,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl18">
+                  <object class="GtkEventBox" id="ev18">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="thu"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl18">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="thu"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -876,17 +991,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl19">
+                  <object class="GtkEventBox" id="ev19">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="fri"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl19">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="fri"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -895,17 +1016,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl20">
+                  <object class="GtkEventBox" id="ev20">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="sat"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl20">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="sat"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -926,17 +1053,23 @@
                 <property name="can_focus">False</property>
                 <property name="homogeneous">True</property>
                 <child>
-                  <object class="GtkAccelLabel" id="lbl21">
+                  <object class="GtkEventBox" id="ev21">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="sun"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl21">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="sun"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -945,17 +1078,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl22">
+                  <object class="GtkEventBox" id="ev22">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="mon"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl22">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="mon"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -964,17 +1103,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl23">
+                  <object class="GtkEventBox" id="ev23">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="tue"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl23">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="tue"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -983,17 +1128,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl24">
+                  <object class="GtkEventBox" id="ev24">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="wed"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl24">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="wed"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1002,17 +1153,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl25">
+                  <object class="GtkEventBox" id="ev25">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="thu"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl25">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="thu"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1021,17 +1178,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl26">
+                  <object class="GtkEventBox" id="ev26">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="fri"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl26">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="fri"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1040,17 +1203,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl27">
+                  <object class="GtkEventBox" id="ev27">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="sat"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl27">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="sat"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1071,17 +1240,23 @@
                 <property name="can_focus">False</property>
                 <property name="homogeneous">True</property>
                 <child>
-                  <object class="GtkAccelLabel" id="lbl28">
+                  <object class="GtkEventBox" id="ev28">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="sun"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl28">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="sun"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1090,17 +1265,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl29">
+                  <object class="GtkEventBox" id="ev29">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="mon"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl29">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="mon"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1109,17 +1290,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl30">
+                  <object class="GtkEventBox" id="ev30">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="tue"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl30">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="tue"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1128,17 +1315,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl31">
+                  <object class="GtkEventBox" id="ev31">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="wed"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl31">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="wed"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1147,17 +1340,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl32">
+                  <object class="GtkEventBox" id="ev32">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="thu"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl32">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="thu"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1166,17 +1365,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl33">
+                  <object class="GtkEventBox" id="ev33">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="fri"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl33">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="fri"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1185,17 +1390,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl34">
+                  <object class="GtkEventBox" id="ev34">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="sat"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl34">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="sat"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1216,17 +1427,23 @@
                 <property name="can_focus">False</property>
                 <property name="homogeneous">True</property>
                 <child>
-                  <object class="GtkAccelLabel" id="lbl35">
+                  <object class="GtkEventBox" id="ev35">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="sun"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl35">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="sun"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1235,17 +1452,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl36">
+                  <object class="GtkEventBox" id="ev36">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="mon"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl36">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="mon"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1254,17 +1477,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl37">
+                  <object class="GtkEventBox" id="ev37">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="tue"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl37">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="tue"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1273,17 +1502,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl38">
+                  <object class="GtkEventBox" id="ev38">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="wed"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl38">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="wed"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1292,17 +1527,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl39">
+                  <object class="GtkEventBox" id="ev39">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="thu"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl39">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="thu"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1311,17 +1552,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl40">
+                  <object class="GtkEventBox" id="ev40">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="fri"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl40">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="fri"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1330,17 +1577,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="lbl41">
+                  <object class="GtkEventBox" id="ev41">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="day"/>
-                      <class name="sat"/>
-                    </style>
+                    <child>
+                      <object class="GtkLabel" id="lbl41">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="hexpand">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="day"/>
+                          <class name="sat"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1392,5 +1645,8 @@
         </child>
       </object>
     </child>
+    <style>
+      <class name="mainWindow"/>
+    </style>
   </object>
 </interface>
