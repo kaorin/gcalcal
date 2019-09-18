@@ -102,15 +102,13 @@ class ConfigXML:
             print ("Error Config Write")
 
 class myCalendar:
-    """[summary]
-    カレンダークラス
+    """カレンダークラス
     Returns:
         [type] -- [description]
     """
 
     def __init__(self):
-        """[summary]
-        初期化
+        """初期化
         """
 
         global GCAL_PATH
@@ -144,8 +142,6 @@ class myCalendar:
                 lblNo += 1
         # 設定ダイアログ
         self.settingDialog = self.wMain.get_object ("dlgSetting")
-        self.btnSettingOK = self.wMain.get_object("btnSettingOK")
-        self.btnSettingCancel = self.wMain.get_object("btnSettingCancel")
         self.btnFileChoose = self.wMain.get_object ("btnFileChoose")
         self.txtEventCalendar = self.wMain.get_object ("txtEventCalendar")
         self.txtHolidayCalendar = self.wMain.get_object ("txtHolidayCalendar")
@@ -153,6 +149,12 @@ class myCalendar:
         self.btnMDColor = self.wMain.get_object ("btnMDColor")
         self.btnTMColor = self.wMain.get_object ("btnTMColor")
         self.btnTextColor = self.wMain.get_object ("btnTextColor")
+        # 予定追加ダイアログ
+        self.scheduleDialog = self.wMain.get_object ("dlgAddSchedule")
+        self.lblAddDate = self.wMain.get_object ("lblAddDate")
+        self.cmbHour = self.wMain.get_object ("cmbHour")
+        self.cmbMin = self.wMain.get_object ("cmbMin")
+        self.txtContent = self.wMain.get_object ("txtContent")
         # GdkColormap to GdkVisual
         # なんか透過ウィンドウを作成するのはこれがミソっぽい
         screen = self.mainWindow.get_screen()
@@ -189,6 +191,8 @@ class myCalendar:
             "on_cmbYear_changed": self.on_cmbYear_changed,
             "on_btnSettingOK_clicked": self.on_btnSettingOK_clicked,
             "on_btnSettingCancel_clicked": self.on_btnSettingCancel_clicked,
+            "on_btnScheduleOK_clicked": self.on_btnScheduleOK_clicked,
+            "on_btnScheduleCancel_clicked": self.on_btnScheduleCancel_clicked,
         }
         self.wMain.connect_signals(dic)
         xpos = conf.GetOption("x_pos")
@@ -220,8 +224,7 @@ class myCalendar:
         self.mainWindow.show_all()
 
     def makeCalendar(self,year,month):
-        '''[summary]
-        カレンダー生成
+        '''カレンダー生成
         Arguments:
             year {[int]} -- [カレンダーの年]
             month {[int]} -- [カレンダーの月]
@@ -273,8 +276,7 @@ class myCalendar:
         self.setHolidayList()
         
     def initDayStyle(self):
-        """[summary]
-        カレンダー属性初期化
+        """カレンダー属性初期化
         """
         for row in range(6):
             for col in range(7):
@@ -288,8 +290,7 @@ class myCalendar:
                 css_context.remove_class("marked")
 
     def findDayLabel(self, day):
-        """[summary]
-        指定日のカレンダーラベルコントロールの取得
+        """指定日のカレンダーラベルコントロールの取得
         Arguments:
             day {[type]} -- [description]
         
@@ -305,8 +306,7 @@ class myCalendar:
         return None
 
     def tooltip_callback(self, widget, x, y, keyboard_mode, tooltip):
-        """[summary]
-        ツールチップ表示コールバック
+        """ツールチップ表示コールバック
         Arguments:
             widget {[type]} -- [description]
             x {[type]} -- [description]
@@ -322,8 +322,7 @@ class myCalendar:
         return True
 
     def setHoliday(self, day, text):
-        """[summary]
-        祝日設定
+        """祝日設定
         Arguments:
             day {[type]} -- [description]
             text {[type]} -- [description]
@@ -337,8 +336,7 @@ class myCalendar:
 
 
     def setMarked(self, day, text):
-        """[summary]
-        マーク指定
+        """マーク指定
         Arguments:
             day {[type]} -- [description]
             text {[type]} -- [description]
@@ -356,8 +354,7 @@ class myCalendar:
             day.connect("query-tooltip", self.tooltip_callback)
 
     def on_evMonthDown_button_release_event(self, wdget, event):
-        """[summary]
-        前月ボタンクリックイベント
+        """前月ボタンクリックイベント
         Arguments:
             wdget {[type]} -- [description]
             event {[type]} -- [description]
@@ -369,8 +366,7 @@ class myCalendar:
         return
 
     def on_evMonthUp_button_release_event(self, wdget, event):
-        """[summary]
-        次月ボタンクリックイベント
+        """次月ボタンクリックイベント
         Arguments:
             wdget {[type]} -- [description]
             event {[type]} -- [description]
@@ -383,8 +379,7 @@ class myCalendar:
         return
 
     def on_evYearDonw_button_release_event(self, wdget, event):
-        """[summary]
-        前年ボタンクリックイベント
+        """前年ボタンクリックイベント
         Arguments:
             wdget {[type]} -- [description]
             event {[type]} -- [description]
@@ -394,8 +389,7 @@ class myCalendar:
         return
 
     def on_evYearUp_button_release_event(self, wdget, event):
-        """[summary]
-        次年ボタンクリックイベント
+        """次年ボタンクリックイベント
         Arguments:
             wdget {[type]} -- [description]
             event {[type]} -- [description]
@@ -405,8 +399,7 @@ class myCalendar:
         return
 
     def on_day_button_release_event(self, widget, event):
-        """[summary]
-        日付ラベルクリックイベント
+        """日付ラベルクリックイベント
         Arguments:
             widget {[type]} -- [description]
             event {[type]} -- [description]
@@ -416,13 +409,14 @@ class myCalendar:
             css_context = day.get_style_context()
             if css_context.has_class("prev_month"):
                 self.on_evMonthDown_button_release_event(widget, event)
-            if css_context.has_class("next_month"):
+            elif css_context.has_class("next_month"):
                 self.on_evMonthUp_button_release_event(widget, event)
+            else:
+                self.addEvent(int(day.get_text()))
         return
 
     def on_wCalendar_button_press_event(self,widget,event):
-        """[summary]
-        メインウィンドウ上でのマウスボタンクリックイベント
+        """メインウィンドウ上でのマウスボタンクリックイベント
         右クリックメニューの表示
         Arguments:
             widget {[type]} -- [description]
@@ -433,8 +427,7 @@ class myCalendar:
             self.context_menu.popup(None, None, None,None, event.button, event.time)
 
     def on_miTitlebar_toggled(self, widget):
-        """[summary]
-        タイトルバーを表示メニューイベントハンドラ
+        """タイトルバーを表示メニューイベントハンドラ
         Arguments:
             widget {[type]} -- [description]
         """
@@ -445,8 +438,7 @@ class myCalendar:
         return
 
     def on_miOpacity_activate(self, widget):
-        """[summary]
-        透明度指定メニューイベントハンドラ
+        """透明度指定メニューイベントハンドラ
         Arguments:
             widget {[type]} -- [description]
         """
@@ -457,8 +449,7 @@ class myCalendar:
         return
 
     def on_evMonth_button_press_event(self, widget,event):
-        """[summary]
-        月ラベルマウスボタンクリックイベント
+        """月ラベルマウスボタンクリックイベント
         Arguments:
             widget {[type]} -- [description]
             event {[type]} -- [description]
@@ -476,8 +467,7 @@ class myCalendar:
         return
 
     def on_evYear_button_press_event(self, widget,event):
-        """[summary]
-        年ラベルマウスボタンクリックイベント
+        """年ラベルマウスボタンクリックイベント
         Arguments:
             widget {[type]} -- [description]
             event {[type]} -- [description]
@@ -495,8 +485,7 @@ class myCalendar:
         return
         
     def on_cmbMonth_changed(self, widget):
-        """[summary]
-        月コンボボックス選択イベントハンドラ
+        """月コンボボックス選択イベントハンドラ
         Arguments:
             widget {[type]} -- [description]
         """
@@ -510,8 +499,7 @@ class myCalendar:
         return
         
     def on_cmbYear_changed(self, widget):
-        """[summary]
-        年コンボボックスイベントハンドラ
+        """年コンボボックスイベントハンドラ
         Arguments:
             widget {[type]} -- [description]
         """
@@ -525,8 +513,7 @@ class myCalendar:
         return
 
     def _saveConf(self):
-        """[summary]
-        設定保存
+        """設定保存
         """
         global GCAL_PATH
         global EVENT_CALENDAR
@@ -551,8 +538,7 @@ class myCalendar:
         conf.Write()
 
     def on_MainWindow_realize(self, widget):
-        """[summary]
-        メインウィンドウ表示イベント
+        """メインウィンドウ表示イベント
         設定値を保存する
         Arguments:
             widget {[type]} -- [description]
@@ -563,8 +549,7 @@ class myCalendar:
         return
 
     def on_wCalendar_focus_out_event(self, widget, event):
-        """[summary]
-        メインウィンドウフォーカスアウトイベント
+        """メインウィンドウフォーカスアウトイベント
         設定値を保存する
         Arguments:
             widget {[type]} -- [description]
@@ -577,8 +562,7 @@ class myCalendar:
         return
 
     def setEventDay(self):
-        """[summary]
-        gcalcliから取得したイベントをカレンダーに設定
+        """gcalcliから取得したイベントをカレンダーに設定
         """
         if len(EVENT_CALENDAR) == 0:
             return
@@ -594,8 +578,7 @@ class myCalendar:
                 self.setMarked(day.day, info[1] + " " + " ".join(info[4:]))
     
     def setEventDayList(self):
-        """[summary]
-        gcalcliから取得したイベント情報をTextViewに設定
+        """gcalcliから取得したイベント情報をTextViewに設定
         """
         montStart = date(self.year, self.month,1)
         _, lastday = calendar.monthrange(self.year, self.month)
@@ -617,8 +600,7 @@ class myCalendar:
                 textIter = self.txtBuffer.get_end_iter()
 
     def setHolidayList(self):
-        """[summary]
-        gcalcliから取得した祝日をカレンダーに設定
+        """gcalcliから取得した祝日をカレンダーに設定
         """
         if len(HOLIDAY_CALENDAR) == 0:
             return
@@ -633,8 +615,7 @@ class myCalendar:
                 self.setHoliday(day.day, " ".join(info[4:]))
 
     def on_miExit_activate(self,widget):
-        """[summary]
-        終了メニューのイベントハンドラ
+        """終了メニューのイベントハンドラ
         Arguments:
             widget {[type]} -- [description]
         """
@@ -642,16 +623,14 @@ class myCalendar:
         Gtk.main_quit()
 
     def on_wCalendar_destroy(self,widget):
-        """[summary]
-        ウィンドウ破棄のイベントハンドラ
+        """ウィンドウ破棄のイベントハンドラ
         Arguments:
             widget {[type]} -- [description]
         """
         Gtk.main_quit()
 
     def on_miSetting_activate(self, widget):
-        """[summary]
-        設定ダイアログを開く
+        """設定ダイアログを開く
         Arguments:
             widget {[type]} -- [description]
         """
@@ -665,8 +644,7 @@ class myCalendar:
         self.settingDialog.show_all()
 
     def on_btnSettingOK_clicked(self, widget):
-        """[summary]
-        設定ダイアログのOKボタンイベント
+        """設定ダイアログのOKボタンイベント
         設定を保存してダイアログを閉じる
         Arguments:
             widget {[type]} -- [description]
@@ -683,17 +661,48 @@ class myCalendar:
         self.settingDialog.hide()
  
     def on_btnSettingCancel_clicked(self, widget):
-        """[summary]
-        設定ダイアログのキャンセルボタンイベント
+        """設定ダイアログのキャンセルボタンイベント
         ダイアログを閉じる
         Arguments:
             widget {[type]} -- [description]
         """
         self.settingDialog.hide()
 
+    def addEvent(self, day):
+        """予定追加ダイアログを開く
+        
+        Arguments:
+            day {[type]} -- [description]
+        """
+        self.lblAddDate.set_text("{:04d}/{:02d}/{:02d}".format(self.year, self.month, day))
+        self.cmbHour.set_active(0)
+        self.cmbMin.set_active(0)
+        self.scheduleDialog.show_all()
+
+    def on_btnScheduleOK_clicked(self, widget):
+        """予定を追加してダイアログを閉じる
+        gcalcli quick コマンドで予定を追加する
+        
+        Arguments:
+            widget {[type]} -- [description]
+        """
+        cmd = GCAL_PATH + "gcalcli " + "--calendar \"" + EVENT_CALENDAR + "\" quick " \
+            "\"" + self.lblAddDate.get_text() + " "+ self.cmbHour.get_active_text() + ":" + self.cmbMin.get_active_text() +" "\
+            "" + self.txtContent.get_text() + "\""
+        self.scheduleDialog.hide()
+        self.res_cmd(cmd)
+        self.makeCalendar(self.year, self.month)
+
+    def on_btnScheduleCancel_clicked(self, widget):
+        """予定追加ダイアログを閉じる
+        
+        Arguments:
+            widget {[type]} -- [description]
+        """
+        self.scheduleDialog.hide()
+    
     def res_cmd(self, cmd):
-        """[summary]
-        cmdで指定されたコマンドをサブプロセスで実行し、結果をひとつの文字列で返却する
+        """cmdで指定されたコマンドをサブプロセスで実行し、結果をひとつの文字列で返却する
         Arguments:
             cmd {[type]} -- [description]
         
@@ -705,8 +714,7 @@ class myCalendar:
             shell=True).communicate()[0].decode("utf-8", "ignore")
 
     def res_cmd_lfeed(self, cmd):
-        """[summary]
-        cmdで指定されたコマンドをサブプロセスで実行し、結果をリストで返す（末尾改行）
+        """cmdで指定されたコマンドをサブプロセスで実行し、結果をリストで返す（末尾改行）
         Arguments:
             cmd {[type]} -- [description]
         
@@ -718,8 +726,7 @@ class myCalendar:
             shell=True).stdout.readlines()
 
     def res_cmd_no_lfeed(self, cmd):
-        """[summary]
-        cmdで指定されたコマンドをサブプロセスで実行し、結果をリストで返す（末尾改行なし）
+        """cmdで指定されたコマンドをサブプロセスで実行し、結果をリストで返す（末尾改行なし）
         Arguments:
             cmd {[type]} -- [description]
         
@@ -729,8 +736,7 @@ class myCalendar:
         return [bytes(x).decode("utf-8", "ignore").rstrip("\n") for x in self.res_cmd_lfeed(cmd)]
 
     def set_style(self):
-        """
-        Change Gtk+ Style
+        """Change Gtk+ Style
         """
         provider = Gtk.CssProvider()
         # Demo CSS kindly provided by Numix project
