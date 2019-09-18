@@ -1,6 +1,9 @@
 /* ウィンドウ全体 */
 .mainWindow {
   color:white;
+  background-image:url("sample.jpg");
+  background-size:contain;
+  opacity: 0.5;
 }
 
 /* 通常の日 */
@@ -65,6 +68,10 @@
 }
 
 /* カレンダー下部の予定表示 */
+.infoText
+{
+  background-color: transparent;
+}
 .infoText text{
   color:white;
   background-color: transparent;

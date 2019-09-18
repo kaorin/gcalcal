@@ -1547,6 +1547,9 @@
                 </style>
               </object>
             </child>
+            <style>
+              <class name="infoText"/>
+            </style>
           </object>
           <packing>
             <property name="expand">False</property>
