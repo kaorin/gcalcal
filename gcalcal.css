@@ -1,25 +1,31 @@
+/* ウィンドウ全体 */
 .mainWindow {
   color:white;
   background-color: black;
 }
 
+/* 通常の日 */
 .day {
   color:white;
 }
 
+/* 日曜日 */
 .sun{
   color:red; 
 }
 
+/* 土曜日 */
 .sat {
   color:lightblue; 
 }
 
+/* 前月と次月の日付 */
 .prev_month,
 .next_month {
   color:gray;
 }
 
+/* 予定のある日 */
 .marked {
   color:black;
   font-weight: bold;
@@ -27,34 +33,39 @@
   border-radius: 5px;
 }
 
+/* 祝日 */
 .holiday{
   color:red; 
 }
 
+/* 選択された日（未使用） */
 .selected {
   color: #ffffff;
   background-color: #4a90d9;
   border-radius: 5px;
 }
 
+/* 今日 */
 .today {
   color: black;
   background-color: yellow;
   border-radius: 5px;
 }
 
+/* 月と年の行 */
 .header {
-  /* 月とか年とか */
   color: white;
   font-weight: bold;
 }
 
+/* 曜日の行 */
 .weekLine {
   color:white;
   background-color: green;
   font-weight: bold;
 }
 
+/* カレンダー下部の予定表示 */
 .infoText text{
   color:white;
 }
