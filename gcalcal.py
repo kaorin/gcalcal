@@ -28,8 +28,8 @@ class ConfigXML:
                      "height":"200",
                      "opacity":"100%",
                      "decoration":"True",
-                     "gcal_path":"~/.local/bin",
-                     "event_calendar":"kaoru.konno@gmail.com",
+                     "gcal_path":"",
+                     "event_calendar":"xxx@gmail.com",
                      "holiday_calendar":"日本の祝日",
     }
     AppName = "Gcalcal"
@@ -522,7 +522,8 @@ class myCalendar:
         conf = ConfigXML(False)
         (xpos, ypos) = self.mainWindow.get_position()
         (self.w, self.h) = self.mainWindow.get_size()
-        GCAL_PATH = os.path.join(GCAL_PATH, '', '')
+        if len(GCAL_PATH) > 0:
+            GCAL_PATH = os.path.join(GCAL_PATH, '', '')
         conf.SetOption("x_pos",xpos)
         conf.SetOption("y_pos",ypos)
         conf.SetOption("width",self.w)
