@@ -655,19 +655,14 @@ class myCalendar:
         global EVENT_CALENDAR
         global HOLIDAY_CALENDAR
         # 設定ダイアログ
-        wMain = Gtk.Builder()
-        wMain.add_from_file(os.path.dirname(os.path.abspath(__file__)) + "/gcalcal.glade")
-        settingDialog = wMain.get_object ("dlgSetting")
-        settingDialog.set_transient_for(self.mainWindow)
-        btnFileChoose = wMain.get_object ("btnFileChoose")
-        txtEventCalendar = wMain.get_object ("txtEventCalendar")
-        txtHolidayCalendar = wMain.get_object ("txtHolidayCalendar")
-        sclOpecity = wMain.get_object ("sclOpecity")
-        btnMDColor = wMain.get_object ("btnMDColor")
-        btnTMColor = wMain.get_object ("btnTMColor")
-        btnTextColor = wMain.get_object ("btnTextColor")
-        settingDialog.add_button(Gtk.STOCK_OK, Gtk.ResponseType.OK)
-        settingDialog.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL)
+        settingDialog = self.wMain.get_object ("dlgSetting")
+        btnFileChoose = self.wMain.get_object ("btnFileChoose")
+        txtEventCalendar = self.wMain.get_object ("txtEventCalendar")
+        txtHolidayCalendar = self.wMain.get_object ("txtHolidayCalendar")
+        sclOpecity = self.wMain.get_object ("sclOpecity")
+        btnMDColor = self.wMain.get_object ("btnMDColor")
+        btnTMColor = self.wMain.get_object ("btnTMColor")
+        btnTextColor = self.wMain.get_object ("btnTextColor")
         btnMDColor.set_color(self.mdColor)
         btnTMColor.set_color(self.tmColor)
         btnTextColor.set_color(self.textColor)
@@ -689,7 +684,7 @@ class myCalendar:
             while Gtk.events_pending():
                 Gtk.main_iteration()
             self.setEventDayList()
-        settingDialog.destroy()
+        settingDialog.hide()
 
     def addEvent(self, day):
         """予定追加ダイアログを開く
@@ -698,16 +693,12 @@ class myCalendar:
             day {[type]} -- [description]
         """
         # 予定追加ダイアログ
-        wMain = Gtk.Builder()
-        wMain.add_from_file(os.path.dirname(os.path.abspath(__file__)) + "/gcalcal.glade")
-        scheduleDialog = wMain.get_object ("dlgAddSchedule")
+        scheduleDialog = self.wMain.get_object ("dlgAddSchedule")
         scheduleDialog.set_transient_for(self.mainWindow)
-        lblAddDate = wMain.get_object ("lblAddDate")
-        cmbHour = wMain.get_object ("cmbHour")
-        cmbMin = wMain.get_object ("cmbMin")
-        txtContent = wMain.get_object ("txtContent")
-        scheduleDialog.add_button(Gtk.STOCK_OK, Gtk.ResponseType.OK)
-        scheduleDialog.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL)
+        lblAddDate = self.wMain.get_object ("lblAddDate")
+        cmbHour = self.wMain.get_object ("cmbHour")
+        cmbMin = self.wMain.get_object ("cmbMin")
+        txtContent = self.wMain.get_object ("txtContent")
         lblAddDate.set_text("{:04d}/{:02d}/{:02d}".format(self.year, self.month, int(day.get_text())))
         cmbHour.set_active(0)
         cmbMin.set_active(0)
@@ -722,7 +713,7 @@ class myCalendar:
                 Gtk.main_iteration()
             self.res_cmd(cmd)
             self.makeCalendar(self.year, self.month)
-        scheduleDialog.destroy()
+        scheduleDialog.hide()
     
     def res_cmd(self, cmd):
         """cmdで指定されたコマンドをサブプロセスで実行し、結果をひとつの文字列で返却する
