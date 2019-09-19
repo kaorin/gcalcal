@@ -140,21 +140,6 @@ class myCalendar:
                 self.days[row][col] = self.wMain.get_object ("lbl{:02d}".format(lblNo))
                 self.wMain.get_object("ev{:02d}".format(lblNo)).connect("button_release_event", self.on_day_button_release_event)
                 lblNo += 1
-        # 設定ダイアログ
-        self.settingDialog = self.wMain.get_object ("dlgSetting")
-        self.btnFileChoose = self.wMain.get_object ("btnFileChoose")
-        self.txtEventCalendar = self.wMain.get_object ("txtEventCalendar")
-        self.txtHolidayCalendar = self.wMain.get_object ("txtHolidayCalendar")
-        self.sclOpecity = self.wMain.get_object ("sclOpecity")
-        self.btnMDColor = self.wMain.get_object ("btnMDColor")
-        self.btnTMColor = self.wMain.get_object ("btnTMColor")
-        self.btnTextColor = self.wMain.get_object ("btnTextColor")
-        # 予定追加ダイアログ
-        self.scheduleDialog = self.wMain.get_object ("dlgAddSchedule")
-        self.lblAddDate = self.wMain.get_object ("lblAddDate")
-        self.cmbHour = self.wMain.get_object ("cmbHour")
-        self.cmbMin = self.wMain.get_object ("cmbMin")
-        self.txtContent = self.wMain.get_object ("txtContent")
         # GdkColormap to GdkVisual
         # なんか透過ウィンドウを作成するのはこれがミソっぽい
         screen = self.mainWindow.get_screen()
@@ -189,10 +174,6 @@ class myCalendar:
             "on_evYear_button_press_event": self.on_evYear_button_press_event,
             "on_cmbMonth_changed": self.on_cmbMonth_changed,
             "on_cmbYear_changed": self.on_cmbYear_changed,
-            "on_btnSettingOK_clicked": self.on_btnSettingOK_clicked,
-            "on_btnSettingCancel_clicked": self.on_btnSettingCancel_clicked,
-            "on_btnScheduleOK_clicked": self.on_btnScheduleOK_clicked,
-            "on_btnScheduleCancel_clicked": self.on_btnScheduleCancel_clicked,
         }
         self.wMain.connect_signals(dic)
         xpos = conf.GetOption("x_pos")
@@ -203,16 +184,15 @@ class myCalendar:
         GCAL_PATH = conf.GetOption("gcal_path")
         EVENT_CALENDAR = conf.GetOption("event_calendar")
         HOLIDAY_CALENDAR = conf.GetOption("holiday_calendar")
-        self.btnMDColor.set_color(Gdk.color_parse(conf.GetOption("mdColor")))
-        self.btnTMColor.set_color(Gdk.color_parse(conf.GetOption("tmColor")))
-        self.btnTextColor.set_color(Gdk.color_parse(conf.GetOption("textColor")))
         self.mainWindow.move(int(xpos), int(ypos))
+        self.mdColor = Gdk.color_parse(conf.GetOption("mdColor"))
+        self.tmColor = Gdk.color_parse(conf.GetOption("tmColor"))
+        self.textColor = Gdk.color_parse(conf.GetOption("textColor"))
         self.cancalEvent = True
         self.mainWindow.resize(self.w,self.h)
         self.wMain.get_object("miTitlebar").set_active(self.decoration)
         self.cancalEvent = False
         self.opacity = float(conf.GetOption("opacity").replace("%","")) / 100
-        self.sclOpecity.set_value(self.opacity * 100)
         self.mainWindow.set_opacity(self.opacity)
         self.schedule.set_opacity(self.opacity)
         self.mainWindow.set_decorated(self.decoration)
@@ -569,9 +549,9 @@ class myCalendar:
         conf.SetOption("gcal_path", GCAL_PATH)
         conf.SetOption("event_calendar", EVENT_CALENDAR)
         conf.SetOption("holiday_calendar", HOLIDAY_CALENDAR)
-        conf.SetOption("mdColor", self.btnMDColor.get_color().to_string())
-        conf.SetOption("tmColor",self.btnTMColor.get_color().to_string())
-        conf.SetOption("textColor",self.btnTextColor.get_color().to_string())
+        conf.SetOption("mdColor", self.mdColor.to_string())
+        conf.SetOption("tmColor",self.tmColor.to_string())
+        conf.SetOption("textColor",self.textColor.to_string())
         conf.Write()
 
     def on_MainWindow_realize(self, widget):
@@ -629,11 +609,11 @@ class myCalendar:
             if len(sch) > 0:
                 info = sch.split("\t")
                 day = datetime.strptime(info[0], "%Y-%m-%d")
-                self.txtBuffer.insert_markup(textIter, "<span foreground='" + self.btnMDColor.get_color().to_string() + "'>" + "{:02d}/{:02d}".format(day.month,day.day) + "</span> ",-1)
+                self.txtBuffer.insert_markup(textIter, "<span foreground='" + self.mdColor.to_string() + "'>" + "{:02d}/{:02d}".format(day.month,day.day) + "</span> ",-1)
                 textIter = self.txtBuffer.get_end_iter()
-                self.txtBuffer.insert_markup(textIter, "<span foreground='" + self.btnTMColor.get_color().to_string() + "'>" + info[1]  + "</span> ",-1)
+                self.txtBuffer.insert_markup(textIter, "<span foreground='" + self.tmColor.to_string() + "'>" + info[1]  + "</span> ",-1)
                 textIter = self.txtBuffer.get_end_iter()
-                self.txtBuffer.insert_markup(textIter, "<span foreground='" + self.btnTextColor.get_color().to_string() + "'>" + " ".join(info[4:]) + "</span> " + "\n", -1)
+                self.txtBuffer.insert_markup(textIter, "<span foreground='" + self.textColor.to_string() + "'>" + " ".join(info[4:]) + "</span> " + "\n", -1)
                 textIter = self.txtBuffer.get_end_iter()
 
     def setHolidayList(self):
@@ -674,38 +654,42 @@ class myCalendar:
         global GCAL_PATH
         global EVENT_CALENDAR
         global HOLIDAY_CALENDAR
-        self.btnFileChoose.set_current_folder(os.path.expanduser(GCAL_PATH))
-        self.txtEventCalendar.set_text(EVENT_CALENDAR)
-        self.txtHolidayCalendar.set_text(HOLIDAY_CALENDAR)
-        self.sclOpecity.set_value(self.opacity * 100)
-        self.settingDialog.show_all()
-
-    def on_btnSettingOK_clicked(self, widget):
-        """設定ダイアログのOKボタンイベント
-        設定を保存してダイアログを閉じる
-        Arguments:
-            widget {[type]} -- [description]
-        """
-        global GCAL_PATH
-        global EVENT_CALENDAR
-        global HOLIDAY_CALENDAR
-        GCAL_PATH = self.btnFileChoose.get_current_folder()
-        EVENT_CALENDAR = self.txtEventCalendar.get_text()
-        HOLIDAY_CALENDAR = self.txtHolidayCalendar.get_text()
-        self.opacity = self.sclOpecity.get_value() / 100
-        self._saveConf()
-        self.setEventDayList()
-        self.settingDialog.hide()
-        while Gtk.events_pending():
-            Gtk.main_iteration()
-
-    def on_btnSettingCancel_clicked(self, widget):
-        """設定ダイアログのキャンセルボタンイベント
-        ダイアログを閉じる
-        Arguments:
-            widget {[type]} -- [description]
-        """
-        self.settingDialog.hide()
+        # 設定ダイアログ
+        wMain = Gtk.Builder()
+        wMain.add_from_file(os.path.dirname(os.path.abspath(__file__)) + "/gcalcal.glade")
+        settingDialog = wMain.get_object ("dlgSetting")
+        settingDialog.set_transient_for(self.mainWindow)
+        btnFileChoose = wMain.get_object ("btnFileChoose")
+        txtEventCalendar = wMain.get_object ("txtEventCalendar")
+        txtHolidayCalendar = wMain.get_object ("txtHolidayCalendar")
+        sclOpecity = wMain.get_object ("sclOpecity")
+        btnMDColor = wMain.get_object ("btnMDColor")
+        btnTMColor = wMain.get_object ("btnTMColor")
+        btnTextColor = wMain.get_object ("btnTextColor")
+        settingDialog.add_button(Gtk.STOCK_OK, Gtk.ResponseType.OK)
+        settingDialog.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL)
+        btnMDColor.set_color(self.mdColor)
+        btnTMColor.set_color(self.tmColor)
+        btnTextColor.set_color(self.textColor)
+        btnFileChoose.set_current_folder(os.path.expanduser(GCAL_PATH))
+        txtEventCalendar.set_text(EVENT_CALENDAR)
+        txtHolidayCalendar.set_text(HOLIDAY_CALENDAR)
+        sclOpecity.set_value(self.opacity * 100)
+        settingDialog.show_all()
+        if settingDialog.run() == Gtk.ResponseType.OK:
+            GCAL_PATH = btnFileChoose.get_current_folder()
+            EVENT_CALENDAR = txtEventCalendar.get_text()
+            HOLIDAY_CALENDAR = txtHolidayCalendar.get_text()
+            self.opacity = sclOpecity.get_value() / 100
+            self.mdColor = btnMDColor.get_color()
+            self.tmColor = btnTMColor.get_color()
+            self.textColor = btnTextColor.get_color()
+            self._saveConf()
+            settingDialog.hide()
+            while Gtk.events_pending():
+                Gtk.main_iteration()
+            self.setEventDayList()
+        settingDialog.destroy()
 
     def addEvent(self, day):
         """予定追加ダイアログを開く
@@ -713,35 +697,32 @@ class myCalendar:
         Arguments:
             day {[type]} -- [description]
         """
-        self.lblAddDate.set_text("{:04d}/{:02d}/{:02d}".format(self.year, self.month, int(day.get_text())))
-        self.cmbHour.set_active(0)
-        self.cmbMin.set_active(0)
-        self.scheduleDialog.show_all()
-
-    def on_btnScheduleOK_clicked(self, widget):
-        """予定を追加してダイアログを閉じる
-        gcalcli quick コマンドで予定を追加する
-        
-        Arguments:
-            widget {[type]} -- [description]
-        """
-        cmd = GCAL_PATH + "gcalcli " + "--calendar \"" + EVENT_CALENDAR + "\" add " \
-            "--title \"" + self.txtContent.get_text() + "\" " + \
-            "--when \"" + self.lblAddDate.get_text() + " " + self.cmbHour.get_active_text() + ":" + self.cmbMin.get_active_text() +"\" " + \
-            "--duration 60 --noprompt" 
-        self.scheduleDialog.hide()
-        while Gtk.events_pending():
-            Gtk.main_iteration()
-        self.res_cmd(cmd)
-        self.makeCalendar(self.year, self.month)
-
-    def on_btnScheduleCancel_clicked(self, widget):
-        """予定追加ダイアログを閉じる
-        
-        Arguments:
-            widget {[type]} -- [description]
-        """
-        self.scheduleDialog.hide()
+        # 予定追加ダイアログ
+        wMain = Gtk.Builder()
+        wMain.add_from_file(os.path.dirname(os.path.abspath(__file__)) + "/gcalcal.glade")
+        scheduleDialog = wMain.get_object ("dlgAddSchedule")
+        scheduleDialog.set_transient_for(self.mainWindow)
+        lblAddDate = wMain.get_object ("lblAddDate")
+        cmbHour = wMain.get_object ("cmbHour")
+        cmbMin = wMain.get_object ("cmbMin")
+        txtContent = wMain.get_object ("txtContent")
+        scheduleDialog.add_button(Gtk.STOCK_OK, Gtk.ResponseType.OK)
+        scheduleDialog.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL)
+        lblAddDate.set_text("{:04d}/{:02d}/{:02d}".format(self.year, self.month, int(day.get_text())))
+        cmbHour.set_active(0)
+        cmbMin.set_active(0)
+        scheduleDialog.show_all()
+        if scheduleDialog.run() == Gtk.ResponseType.OK:
+            cmd = GCAL_PATH + "gcalcli " + "--calendar \"" + EVENT_CALENDAR + "\" add " \
+                "--title \"" + txtContent.get_text() + "\" " + \
+                "--when \"" + lblAddDate.get_text() + " " + cmbHour.get_active_text() + ":" + cmbMin.get_active_text() +"\" " + \
+                "--duration 60 --noprompt" 
+            scheduleDialog.hide()
+            while Gtk.events_pending():
+                Gtk.main_iteration()
+            self.res_cmd(cmd)
+            self.makeCalendar(self.year, self.month)
+        scheduleDialog.destroy()
     
     def res_cmd(self, cmd):
         """cmdで指定されたコマンドをサブプロセスで実行し、結果をひとつの文字列で返却する

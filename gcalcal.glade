@@ -53,6 +53,7 @@
   <object class="GtkTextBuffer" id="txtInfoBuffer"/>
   <object class="GtkWindow" id="wCalendar">
     <property name="can_focus">False</property>
+    <property name="title" translatable="yes">透明カレンダー</property>
     <property name="skip_taskbar_hint">True</property>
     <signal name="button-press-event" handler="on_wCalendar_button_press_event" swapped="no"/>
     <signal name="destroy" handler="on_wCalendar_destroy" swapped="no"/>
@@ -1566,6 +1567,7 @@
   </object>
   <object class="GtkDialog" id="dlgAddSchedule">
     <property name="can_focus">False</property>
+    <property name="title" translatable="yes">予定の追加</property>
     <property name="type_hint">dialog</property>
     <property name="transient_for">wCalendar</property>
     <child>
@@ -1581,34 +1583,10 @@
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
-              <object class="GtkButton" id="btnScheduleOK">
-                <property name="label">gtk-ok</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-                <signal name="clicked" handler="on_btnScheduleOK_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
+              <placeholder/>
             </child>
             <child>
-              <object class="GtkButton" id="btnScheduleCancel">
-                <property name="label">gtk-cancel</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-                <signal name="clicked" handler="on_btnScheduleCancel_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
+              <placeholder/>
             </child>
           </object>
           <packing>
@@ -1734,6 +1712,7 @@
   </object>
   <object class="GtkDialog" id="dlgSetting">
     <property name="can_focus">False</property>
+    <property name="title" translatable="yes">設定</property>
     <property name="type_hint">dialog</property>
     <property name="transient_for">wCalendar</property>
     <child>
@@ -1749,34 +1728,10 @@
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
-              <object class="GtkButton" id="btnSettingOK">
-                <property name="label">gtk-ok</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="use_stock">True</property>
-                <signal name="clicked" handler="on_btnSettingOK_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
+              <placeholder/>
             </child>
             <child>
-              <object class="GtkButton" id="btnSettingCancel">
-                <property name="label">gtk-cancel</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="use_stock">True</property>
-                <signal name="clicked" handler="on_btnSettingCancel_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
+              <placeholder/>
             </child>
           </object>
           <packing>
