@@ -780,3 +780,6 @@ class myCalendar:
 if __name__ == '__main__':
     myCalendar()
     Gtk.main()
+
+# gcalcli登録コマンド
+#  gcalcli --calendar kaoru.konno@gmail.com add --title "aaa bbb" --when "2019/09/03 12:00" --duration 60 --noprompt
