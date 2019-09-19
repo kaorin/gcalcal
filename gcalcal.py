@@ -416,9 +416,27 @@ class myCalendar:
             css_context = day.get_style_context()
             if css_context.has_class("prev_month"):
                 self.on_evMonthDown_button_release_event(widget, event)
-            if css_context.has_class("next_month"):
+            elif css_context.has_class("next_month"):
                 self.on_evMonthUp_button_release_event(widget, event)
-        return
+            else:
+                if event.type == Gdk.EventType.BUTTON_PRESS and event.button == 3:
+                    # 右クリック
+                    tooltip = day.get_tooltip_text()
+                    if tooltip != None and len(tootip) > 0:
+                        event = tooltip.split("\n")
+                        deleteDialog  = Gtk.Dialog(parent = self.mainWindow)
+                        self.add_button(Gtk.STOCK_OK, Gtk.ResponseType.OK)
+                        self.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL)
+                        for ev in event:
+                            cb = Gtk.CheckButton(ev)
+                            deleteDialog.vbox.pack_start(cv, False, False, 0)
+                        if deleteDialog.run() == Gtk.ResponseType.OK:
+                            for cv in deleteDialog.vbox.get_children():
+                                if cv.props.active:
+                                    delDate = date(self.year, self.month, int(day.get_text()))
+                                    cmd = GCAL_PATH + "gcalcli delete \"" + cv.get_text() + "\" " + delDate.isoformat() + " --iamexpert"
+                        deleteDialog.destroy()
+         return
 
     def on_wCalendar_button_press_event(self,widget,event):
         """[summary]
