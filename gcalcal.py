@@ -412,8 +412,45 @@ class myCalendar:
             elif css_context.has_class("next_month"):
                 self.on_evMonthUp_button_release_event(widget, event)
             else:
-                self.addEvent(int(day.get_text()))
+                if event.type == Gdk.EventType.BUTTON_RELEASE and event.button == 2:
+                    # 中央クリック
+                    self.deleteEvent(day)
+                elif event.type == Gdk.EventType.BUTTON_RELEASE and event.button == 1:
+                    # 左クリック
+                    self.addEvent(day)
         return
+
+    def deleteEvent(self, day):
+        """イベント削除ダイアログを表示
+        指定日のイベントを削除するダイアログを表示
+        
+        Arguments:
+            day {[type]} -- [description]
+        """
+        tooltip = day.get_tooltip_text()
+        if tooltip != None and len(tooltip) > 0:
+            event = tooltip.split("\n")
+            deleteDialog  = Gtk.Dialog(parent = self.mainWindow, title = "予定の削除")
+            deleteDialog.add_button(Gtk.STOCK_OK, Gtk.ResponseType.OK)
+            deleteDialog.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL)
+            lbl = Gtk.Label("削除する予定をチェック")
+            deleteDialog.vbox.pack_start(lbl, False, False, 0)
+            for ev in event:
+                cb = Gtk.CheckButton(label = ev)
+                deleteDialog.vbox.pack_start(cb, False, False, 0)
+            deleteDialog.show_all()
+            if deleteDialog.run() == Gtk.ResponseType.OK:
+                for cb in deleteDialog.vbox.get_children():
+                    if type(cb) == gi.repository.Gtk.CheckButton:
+                        if cb.props.active:
+                            delDate = date(self.year, self.month, int(day.get_text()))
+                            cmd = GCAL_PATH + "gcalcli delete \"" + cb.props.label.split()[1] + "\" " + delDate.isoformat() + " --iamaexpert"
+                            deleteDialog.hide()
+                            while Gtk.events_pending():
+                                Gtk.main_iteration()
+                            self.res_cmd(cmd)
+                            self.makeCalendar(self.year, self.month)
+            deleteDialog.destroy()
 
     def on_wCalendar_button_press_event(self,widget,event):
         """メインウィンドウ上でのマウスボタンクリックイベント
@@ -659,7 +696,9 @@ class myCalendar:
         self._saveConf()
         self.setEventDayList()
         self.settingDialog.hide()
- 
+        while Gtk.events_pending():
+            Gtk.main_iteration()
+
     def on_btnSettingCancel_clicked(self, widget):
         """設定ダイアログのキャンセルボタンイベント
         ダイアログを閉じる
@@ -674,7 +713,7 @@ class myCalendar:
         Arguments:
             day {[type]} -- [description]
         """
-        self.lblAddDate.set_text("{:04d}/{:02d}/{:02d}".format(self.year, self.month, day))
+        self.lblAddDate.set_text("{:04d}/{:02d}/{:02d}".format(self.year, self.month, int(day.get_text())))
         self.cmbHour.set_active(0)
         self.cmbMin.set_active(0)
         self.scheduleDialog.show_all()
@@ -686,10 +725,13 @@ class myCalendar:
         Arguments:
             widget {[type]} -- [description]
         """
-        cmd = GCAL_PATH + "gcalcli " + "--calendar \"" + EVENT_CALENDAR + "\" quick " \
-            "\"" + self.lblAddDate.get_text() + " "+ self.cmbHour.get_active_text() + ":" + self.cmbMin.get_active_text() +" "\
-            "" + self.txtContent.get_text() + "\""
+        cmd = GCAL_PATH + "gcalcli " + "--calendar \"" + EVENT_CALENDAR + "\" add " \
+            "--title \"" + self.txtContent.get_text() + "\" " + \
+            "--when \"" + self.lblAddDate.get_text() + " " + self.cmbHour.get_active_text() + ":" + self.cmbMin.get_active_text() +"\" " + \
+            "--duration 60 --noprompt" 
         self.scheduleDialog.hide()
+        while Gtk.events_pending():
+            Gtk.main_iteration()
         self.res_cmd(cmd)
         self.makeCalendar(self.year, self.month)
 
