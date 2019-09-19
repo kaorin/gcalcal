@@ -1,6 +1,7 @@
 /* ウィンドウ全体 */
 .mainWindow {
   color:white;
+  border-radius:10px;
 }
 
 /* 通常の日 */
@@ -10,12 +11,12 @@
 
 /* 日曜日 */
 .sun{
-  color:red; 
+  color:red;
 }
 
 /* 土曜日 */
 .sat {
-  color:lightblue; 
+  color:lightblue;
 }
 
 /* 前月と次月の日付 */
@@ -34,7 +35,7 @@
 
 /* 祝日 */
 .holiday{
-  color:red; 
+  color:red;
 }
 
 /* 選択された日（未使用） */
@@ -68,4 +69,5 @@
 .infoText text{
   color:white;
   background-color: transparent;
+  border-radius:10px;
 }
