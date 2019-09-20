@@ -7,6 +7,7 @@ import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from gi.repository import Gdk
+from gi.repository import GLib
 from xml.dom import minidom
 import codecs
 import base64
@@ -184,7 +185,6 @@ class myCalendar:
         GCAL_PATH = conf.GetOption("gcal_path")
         EVENT_CALENDAR = conf.GetOption("event_calendar")
         HOLIDAY_CALENDAR = conf.GetOption("holiday_calendar")
-        self.mainWindow.move(int(xpos), int(ypos))
         self.mdColor = Gdk.color_parse(conf.GetOption("mdColor"))
         self.tmColor = Gdk.color_parse(conf.GetOption("tmColor"))
         self.textColor = Gdk.color_parse(conf.GetOption("textColor"))
@@ -196,12 +196,28 @@ class myCalendar:
         self.mainWindow.set_opacity(self.opacity)
         self.schedule.set_opacity(self.opacity)
         self.mainWindow.set_decorated(self.decoration)
+        self.mainWindow.move(int(xpos), int(ypos))
         now = date.today()
         self.month = now.month
         self.year = now.year
         self.set_style()
         self.makeCalendar(now.year, now.month)
         self.mainWindow.show_all()
+        # 15分毎にカレンダーを更新する
+        self.timeout = GLib.timeout_add_seconds(int(15*60),self.timeout_callback,self)
+
+    def timeout_callback(self):
+        """タイムアウト時カレンダー情報更新
+        15分ごとのタイムアウトでカレンダーに設定されているイベントを更新
+        
+        Returns:
+            [type] -- [description]
+        """
+        self.makeCalendar(self.year, self.month)
+        self.setEventDay()
+        self.setEventDayList()
+        self.setHolidayList()
+        return True
 
     def makeCalendar(self,year,month):
         '''カレンダー生成
@@ -699,6 +715,9 @@ class myCalendar:
         cmbHour = self.wMain.get_object ("cmbHour")
         cmbMin = self.wMain.get_object ("cmbMin")
         txtContent = self.wMain.get_object ("txtContent")
+        dlSpan = self.wMain.get_object ("dlSpan")
+        swAllDay = self.wMain.get_object ("swAllDay")
+        txtBufferContents = self.wMain.get_object ("txtBufferContents")
         lblAddDate.set_text("{:04d}/{:02d}/{:02d}".format(self.year, self.month, int(day.get_text())))
         cmbHour.set_active(0)
         cmbMin.set_active(0)
@@ -706,11 +725,21 @@ class myCalendar:
         if scheduleDialog.run() == Gtk.ResponseType.OK:
             cmd = GCAL_PATH + "gcalcli " + "--calendar \"" + EVENT_CALENDAR + "\" add " \
                 "--title \"" + txtContent.get_text() + "\" " + \
-                "--when \"" + lblAddDate.get_text() + " " + cmbHour.get_active_text() + ":" + cmbMin.get_active_text() +"\" " + \
-                "--duration 60 --noprompt" 
+                "--noprompt " 
+            start_iter = txtBufferContents.get_start_iter()
+            end_iter = txtBufferContents.get_end_iter()
+            text = txtBufferContents.get_text(start_iter, end_iter, False)               
+            if len(text) > 0:
+                cmd += "--description \"" + text + "\" "
+            if swAllDay.get_active() > 0:
+                cmd += "--allday "
+            else:
+                cmd += "--when \"" + lblAddDate.get_text() + " " + cmbHour.get_active_text() + ":" + cmbMin.get_active_text() +"\" " + \
+                "--duration " + str(int(float(dlSpan.get_active_text()) * 60))
             scheduleDialog.hide()
             while Gtk.events_pending():
                 Gtk.main_iteration()
+            print(cmd)
             self.res_cmd(cmd)
             self.makeCalendar(self.year, self.month)
         scheduleDialog.hide()
