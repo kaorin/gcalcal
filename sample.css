@@ -13,12 +13,12 @@
 
 /* 日曜日 */
 .sun{
-  color:red; 
+  color:red;
 }
 
 /* 土曜日 */
 .sat {
-  color:lightblue; 
+  color:lightblue;
 }
 
 /* 前月と次月の日付 */
@@ -37,11 +37,11 @@
 
 /* 祝日 */
 .holiday{
-  color:red; 
+  color:red;
 }
 
 /* 選択された日（未使用） */
-.selected {
+.day:hover {
   color: #ffffff;
   background-color: #4a90d9;
   border-radius: 5px;

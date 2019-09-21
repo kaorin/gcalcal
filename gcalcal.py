@@ -139,7 +139,7 @@ class myCalendar:
         for row in range(6):
             for col in range(7):
                 self.days[row][col] = self.wMain.get_object ("lbl{:02d}".format(lblNo))
-                self.wMain.get_object("ev{:02d}".format(lblNo)).connect("button_release_event", self.on_day_button_release_event)
+                self.wMain.get_object("ev{:02d}".format(lblNo)).connect("button_press_event", self.on_day_button_press_event)
                 lblNo += 1
         # GdkColormap to GdkVisual
         # なんか透過ウィンドウを作成するのはこれがミソっぽい
@@ -211,7 +211,7 @@ class myCalendar:
     def timeout_callback(self):
         """タイムアウト時カレンダー情報更新
         15分ごとのタイムアウトでカレンダーに設定されているイベントを更新
-        
+
         Returns:
             [type] -- [description]
         """
@@ -272,7 +272,7 @@ class myCalendar:
         self.setEventDay()
         self.setEventDayList()
         self.setHolidayList()
-        
+
     def initDayStyle(self):
         """カレンダー属性初期化
         """
@@ -291,7 +291,7 @@ class myCalendar:
         """指定日のカレンダーラベルコントロールの取得
         Arguments:
             day {[type]} -- [description]
-        
+
         Returns:
             [Gtk.Label] -- [指定日のラベルコントロール]
         """
@@ -311,7 +311,7 @@ class myCalendar:
             y {[type]} -- [description]
             keyboard_mode {[type]} -- [description]
             tooltip {[type]} -- [description]
-        
+
         Returns:
             [bool] -- [True：表示/False：非表示]]
         """
@@ -396,7 +396,7 @@ class myCalendar:
         self.makeCalendar(self.year, self.month)
         return
 
-    def on_day_button_release_event(self, widget, event):
+    def on_day_button_press_event(self, widget, event):
         """日付ラベルクリックイベント
         Arguments:
             widget {[type]} -- [description]
@@ -410,18 +410,18 @@ class myCalendar:
             elif css_context.has_class("next_month"):
                 self.on_evMonthUp_button_release_event(widget, event)
             else:
-                if event.type == Gdk.EventType.BUTTON_RELEASE and event.button == 2:
-                    # 中央クリック
+                if event.type == Gdk.EventType.BUTTON_PRESS  and event.button == 2:
+                    # ホイールクリック
                     self.deleteEvent(day)
-                elif event.type == Gdk.EventType.BUTTON_RELEASE and event.button == 1:
-                    # 左クリック
+                elif event.type == Gdk.EventType.DOUBLE_BUTTON_PRESS  and event.button == 1:
+                    # 左ダブルクリック
                     self.addEvent(day)
         return
 
     def deleteEvent(self, day):
         """イベント削除ダイアログを表示
         指定日のイベントを削除するダイアログを表示
-        
+
         Arguments:
             day {[type]} -- [description]
         """
@@ -510,7 +510,7 @@ class myCalendar:
         self.lblMonth.hide()
         self.lblYear.hide()
         self.mainWindow.show_all()
-        
+
     def on_cmbMonth_changed(self, widget):
         """月コンボボックス選択イベントハンドラ
         Arguments:
@@ -526,7 +526,7 @@ class myCalendar:
         self.month = self.cmbMonth.get_active() + 1
         self.makeCalendar(self.year, self.month)
         return
-        
+
     def on_cmbYear_changed(self, widget):
         """年コンボボックスイベントハンドラ
         Arguments:
@@ -546,7 +546,7 @@ class myCalendar:
     def on_cmbMonth_popdown(self, widget):
         """月選択キャンセル
         ESCキーなどで月選択のキャンセル時のイベントハンドラ
-        
+
         Arguments:
             widget {[type]} -- [description]
         """
@@ -561,7 +561,7 @@ class myCalendar:
     def on_cmbYear_popdown(self, widget):
         """年選択キャンセル
         ESCキーなどで年選択のキャンセル時のイベントハンドラ
-        
+
         Arguments:
             widget {[type]} -- [description]
         """
@@ -637,7 +637,7 @@ class myCalendar:
                 info = sch.split("\t")
                 day = datetime.strptime(info[0], "%Y-%m-%d")
                 self.setMarked(day.day, info[1] + " " + " ".join(info[4:]))
-    
+
     def setEventDayList(self):
         """gcalcliから取得したイベント情報をTextViewに設定
         """
@@ -732,7 +732,7 @@ class myCalendar:
 
     def addEvent(self, day):
         """予定追加ダイアログを開く
-        
+
         Arguments:
             day {[type]} -- [description]
         """
@@ -754,10 +754,10 @@ class myCalendar:
         if scheduleDialog.run() == Gtk.ResponseType.OK:
             cmd = GCAL_PATH + "gcalcli " + "--calendar \"" + EVENT_CALENDAR + "\" add " \
                 "--title \"" + txtContent.get_text() + "\" " + \
-                "--noprompt " 
+                "--noprompt "
             start_iter = txtBufferContents.get_start_iter()
             end_iter = txtBufferContents.get_end_iter()
-            text = txtBufferContents.get_text(start_iter, end_iter, False)               
+            text = txtBufferContents.get_text(start_iter, end_iter, False)
             if len(text) > 0:
                 cmd += "--description \"" + text + "\" "
             if swAllDay.get_active() > 0:
@@ -772,12 +772,12 @@ class myCalendar:
             self.res_cmd(cmd)
             self.makeCalendar(self.year, self.month)
         scheduleDialog.hide()
-    
+
     def res_cmd(self, cmd):
         """cmdで指定されたコマンドをサブプロセスで実行し、結果をひとつの文字列で返却する
         Arguments:
             cmd {[type]} -- [description]
-        
+
         Returns:
             [type] -- [description]
         """
@@ -789,7 +789,7 @@ class myCalendar:
         """cmdで指定されたコマンドをサブプロセスで実行し、結果をリストで返す（末尾改行）
         Arguments:
             cmd {[type]} -- [description]
-        
+
         Returns:
             [type] -- [description]
         """
@@ -801,7 +801,7 @@ class myCalendar:
         """cmdで指定されたコマンドをサブプロセスで実行し、結果をリストで返す（末尾改行なし）
         Arguments:
             cmd {[type]} -- [description]
-        
+
         Returns:
             [type] -- [description]
         """
