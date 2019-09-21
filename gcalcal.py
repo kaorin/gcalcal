@@ -721,6 +721,7 @@ class myCalendar:
         lblAddDate.set_text("{:04d}/{:02d}/{:02d}".format(self.year, self.month, int(day.get_text())))
         cmbHour.set_active(0)
         cmbMin.set_active(0)
+        dlSpan.set_active(1)
         scheduleDialog.show_all()
         if scheduleDialog.run() == Gtk.ResponseType.OK:
             cmd = GCAL_PATH + "gcalcli " + "--calendar \"" + EVENT_CALENDAR + "\" add " \
