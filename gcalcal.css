@@ -7,16 +7,7 @@
 /* 通常の日 */
 .day {
   color:white;
-}
-
-/* 日曜日 */
-.sun{
-  color:red;
-}
-
-/* 土曜日 */
-.sat {
-  color:lightblue;
+  text-shadow: 1px 1px 1px #999999;
 }
 
 /* 前月と次月の日付 */
@@ -31,6 +22,16 @@
   font-weight: bold;
   background-color: greenyellow;
   border-radius: 5px;
+}
+
+/* 日曜日 */
+.sun{
+  color:red;
+}
+
+/* 土曜日 */
+.sat {
+  color:lightblue;
 }
 
 /* 祝日 */

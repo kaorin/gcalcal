@@ -130,6 +130,7 @@
                         <property name="can_focus">False</property>
                         <property name="no_show_all">True</property>
                         <signal name="changed" handler="on_cmbMonth_changed" swapped="no"/>
+                        <signal name="popdown" handler="on_cmbMonth_popdown" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -226,6 +227,7 @@
                         <property name="can_focus">False</property>
                         <property name="no_show_all">True</property>
                         <signal name="changed" handler="on_cmbYear_changed" swapped="no"/>
+                        <signal name="popdown" handler="on_cmbYear_popdown" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>

@@ -175,6 +175,8 @@ class myCalendar:
             "on_evYear_button_press_event": self.on_evYear_button_press_event,
             "on_cmbMonth_changed": self.on_cmbMonth_changed,
             "on_cmbYear_changed": self.on_cmbYear_changed,
+            "on_cmbMonth_popdown": self.on_cmbMonth_popdown,
+            "on_cmbYear_popdown": self.on_cmbYear_popdown,
         }
         self.wMain.connect_signals(dic)
         xpos = conf.GetOption("x_pos")
@@ -487,17 +489,13 @@ class myCalendar:
             widget {[type]} -- [description]
             event {[type]} -- [description]
         """
-        if self.cmbMonth.get_no_show_all() == True:
-            self.cmbMonth.set_no_show_all(False)
-            self.cmbYear.set_no_show_all(False)
-            self.mainWindow.show_all()
-        else:
-            self.cmbMonth.set_no_show_all(True)
-            self.cmbYear.set_no_show_all(True)
-            self.cmbMonth.hide()
-            self.cmbYear.hide()
-            self.mainWindow.show_all()
-        return
+        self.cmbMonth.set_no_show_all(False)
+        self.cmbYear.set_no_show_all(False)
+        self.lblMonth.set_no_show_all(True)
+        self.lblYear.set_no_show_all(True)
+        self.lblMonth.hide()
+        self.lblYear.hide()
+        self.mainWindow.show_all()
 
     def on_evYear_button_press_event(self, widget,event):
         """年ラベルマウスボタンクリックイベント
@@ -505,17 +503,13 @@ class myCalendar:
             widget {[type]} -- [description]
             event {[type]} -- [description]
         """
-        if self.cmbYear.get_no_show_all() == True:
-            self.cmbMonth.set_no_show_all(False)
-            self.cmbYear.set_no_show_all(False)
-            self.mainWindow.show_all()
-        else:
-            self.cmbMonth.set_no_show_all(True)
-            self.cmbYear.set_no_show_all(True)
-            self.cmbMonth.hide()
-            self.cmbYear.hide()
-            self.mainWindow.show_all()
-        return
+        self.cmbMonth.set_no_show_all(False)
+        self.cmbYear.set_no_show_all(False)
+        self.lblMonth.set_no_show_all(True)
+        self.lblYear.set_no_show_all(True)
+        self.lblMonth.hide()
+        self.lblYear.hide()
+        self.mainWindow.show_all()
         
     def on_cmbMonth_changed(self, widget):
         """月コンボボックス選択イベントハンドラ
@@ -526,6 +520,8 @@ class myCalendar:
         self.cmbYear.set_no_show_all(True)
         self.cmbMonth.hide()
         self.cmbYear.hide()
+        self.lblMonth.show()
+        self.lblYear.show()
         self.mainWindow.show_all()
         self.month = self.cmbMonth.get_active() + 1
         self.makeCalendar(self.year, self.month)
@@ -540,10 +536,42 @@ class myCalendar:
         self.cmbYear.set_no_show_all(True)
         self.cmbMonth.hide()
         self.cmbYear.hide()
+        self.lblMonth.show()
+        self.lblYear.show()
         self.mainWindow.show_all()
         self.year = int(self.cmbYear.get_active_text())
         self.makeCalendar(self.year, self.month)
         return
+
+    def on_cmbMonth_popdown(self, widget):
+        """月選択キャンセル
+        ESCキーなどで月選択のキャンセル時のイベントハンドラ
+        
+        Arguments:
+            widget {[type]} -- [description]
+        """
+        self.cmbMonth.set_no_show_all(True)
+        self.cmbYear.set_no_show_all(True)
+        self.cmbMonth.hide()
+        self.cmbYear.hide()
+        self.lblMonth.show()
+        self.lblYear.show()
+        self.mainWindow.show_all()
+
+    def on_cmbYear_popdown(self, widget):
+        """年選択キャンセル
+        ESCキーなどで年選択のキャンセル時のイベントハンドラ
+        
+        Arguments:
+            widget {[type]} -- [description]
+        """
+        self.cmbMonth.set_no_show_all(True)
+        self.cmbYear.set_no_show_all(True)
+        self.cmbMonth.hide()
+        self.cmbYear.hide()
+        self.lblMonth.show()
+        self.lblYear.show()
+        self.mainWindow.show_all()
 
     def _saveConf(self):
         """設定保存
