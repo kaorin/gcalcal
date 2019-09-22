@@ -122,6 +122,7 @@ class myCalendar:
         self.context_menu =  self.wMain.get_object ("mMenu")
         self.mainWindow = self.wMain.get_object ("wCalendar")
         self.calCalendar = self.wMain.get_object ("calCalendar")
+        self.sclInfoText = self.wMain.get_object ("sclInfoText")
         self.txtBuffer = self.wMain.get_object ("txtInfoBuffer")
         self.schedule = self.wMain.get_object ("txtInfoText")
         self.lblMonth = self.wMain.get_object ("lblMonth")
@@ -643,22 +644,27 @@ class myCalendar:
         """
         montStart = date(self.year, self.month,1)
         _, lastday = calendar.monthrange(self.year, self.month)
-        montFinish = date(self.year, self.month,lastday)
+        montFinish = date.today() +  + timedelta(days=14)   # 当日から2週間後まで
         schedules = self.res_cmd_no_lfeed(GCAL_PATH + "gcalcli --nocolor agenda --tsv " + montStart.isoformat() + " " + montFinish.isoformat())
         dict.fromkeys(schedules)
         schedules = list(dict.fromkeys(schedules))
         self.txtBuffer.set_text("")
         textIter = self.txtBuffer.get_start_iter()
+        scrollMark = None
         for sch in schedules:
             if len(sch) > 0:
                 info = sch.split("\t")
                 day = datetime.strptime(info[0], "%Y-%m-%d")
+                if datetime.today() > day:
+                    scrollMark = self.txtBuffer.create_mark("mark", textIter, False)
                 self.txtBuffer.insert_markup(textIter, "<span foreground='" + self.mdColor.to_string() + "'>" + "{:02d}/{:02d}".format(day.month,day.day) + "</span> ",-1)
                 textIter = self.txtBuffer.get_end_iter()
                 self.txtBuffer.insert_markup(textIter, "<span foreground='" + self.tmColor.to_string() + "'>" + info[1]  + "</span> ",-1)
                 textIter = self.txtBuffer.get_end_iter()
                 self.txtBuffer.insert_markup(textIter, "<span foreground='" + self.textColor.to_string() + "'>" + " ".join(info[4:]) + "</span> " + "\n", -1)
                 textIter = self.txtBuffer.get_end_iter()
+        if scrollMark != None:
+            ret = self.schedule.scroll_to_mark(scrollMark, 0, False, 0, 0)
 
     def setHolidayList(self):
         """gcalcliから取得した祝日をカレンダーに設定

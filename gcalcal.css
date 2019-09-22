@@ -10,15 +10,8 @@
   text-shadow: 1px 1px 1px #999999;
 }
 
-/* 前月と次月の日付 */
-.prev_month,
-.next_month {
-  color:gray;
-}
-
 /* 予定のある日 */
 .marked {
-  color:black;
   font-weight: bold;
   background-color: greenyellow;
   border-radius: 5px;
@@ -31,12 +24,18 @@
 
 /* 土曜日 */
 .sat {
-  color:lightblue;
+  color:blue;
 }
 
 /* 祝日 */
 .holiday{
   color:red;
+}
+
+/* 前月と次月の日付 */
+.prev_month,
+.next_month {
+  color:gray;
 }
 
 /* 選択された日（未使用） */
