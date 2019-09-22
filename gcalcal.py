@@ -17,6 +17,8 @@ import datetime
 from datetime import datetime, date, timedelta
 from os.path import abspath, dirname, join
 
+__VERSION__="1.0.0.0"
+
 WHERE_AM_I = abspath(dirname(__file__))
 GCAL_PATH="~/.local/bin"
 EVENT_CALENDAR="kaoru.konno@gmail.com"

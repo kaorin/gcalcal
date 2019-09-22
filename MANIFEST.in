@@ -1,0 +1,7 @@
+include ChangeLog
+include README.md
+include LISENCE
+include *.css
+include *.glade
+include gcalcli.py
+include gcalcli.desktop

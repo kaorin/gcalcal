@@ -1,0 +1,4 @@
+#!/bin/sh
+python3 /usr/share/gcalcal/gcalcal.py $1 $2 $3
+
+

@@ -1,1 +1,7 @@
 gcalcal.glade~
+build.sh
+__pycache__
+gcalcal.cpython-36.pyc
+gcalcal.egg-info
+deb_dist
+dist
