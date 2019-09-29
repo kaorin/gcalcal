@@ -2,12 +2,16 @@
 .mainWindow {
   color:white;
   border-radius:10px;
+  /* background-image: url("sample.jpg");
+  background-size:contain; */
+  /* opacity: 0.5; */
 }
 
 /* 通常の日 */
 .day {
   color:white;
   text-shadow: 1px 1px 1px #999999;
+  background: transparent;
 }
 
 /* 予定のある日 */

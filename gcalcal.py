@@ -150,6 +150,7 @@ class myCalendar:
         visual = screen.get_rgba_visual()
         if visual != None and screen.is_composited():
             self.mainWindow.set_visual(visual)
+            self.mainWindow.override_background_color(Gtk.StateType.NORMAL, Gdk.RGBA(0,0,0,1))
         else:
             print ("no Composited...")
         dic = {
@@ -731,6 +732,8 @@ class myCalendar:
             self.mdColor = btnMDColor.get_color()
             self.tmColor = btnTMColor.get_color()
             self.textColor = btnTextColor.get_color()
+            self.mainWindow.set_opacity(self.opacity)
+            self.schedule.set_opacity(self.opacity)
             self._saveConf()
             settingDialog.hide()
             while Gtk.events_pending():

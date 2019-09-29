@@ -36,7 +36,7 @@ setup(name='gcalcal',
       ],
       install_requires=[
           'gcalcli',
-          'gobject',
+          'python-gobject',
       ],
       classifiers=[
           "Development Status :: 5 - Production/Stable",
