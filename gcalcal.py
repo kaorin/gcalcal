@@ -8,12 +8,14 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GLib
+from gi.repository import GdkPixbuf
 from xml.dom import minidom
 import codecs
 import base64
 import subprocess
 import calendar
 import datetime
+import cairo
 from datetime import datetime, date, timedelta
 from os.path import abspath, dirname, join
 
@@ -123,6 +125,7 @@ class myCalendar:
         self.wMain.add_from_file(os.path.dirname(os.path.abspath(__file__)) + "/gcalcal.glade")
         self.context_menu =  self.wMain.get_object ("mMenu")
         self.mainWindow = self.wMain.get_object ("wCalendar")
+        self.vbxMain = self.wMain.get_object ("vbxMain")
         self.calCalendar = self.wMain.get_object ("calCalendar")
         self.sclInfoText = self.wMain.get_object ("sclInfoText")
         self.txtBuffer = self.wMain.get_object ("txtInfoBuffer")
@@ -150,7 +153,6 @@ class myCalendar:
         visual = screen.get_rgba_visual()
         if visual != None and screen.is_composited():
             self.mainWindow.set_visual(visual)
-            self.mainWindow.override_background_color(Gtk.StateType.NORMAL, Gdk.RGBA(0,0,0,1))
         else:
             print ("no Composited...")
         dic = {
@@ -160,16 +162,6 @@ class myCalendar:
             "on_wCalendar_button_press_event" : self.on_wCalendar_button_press_event,
             "on_wCalendar_realize" : self.on_MainWindow_realize,
             "on_miTitlebar_toggled" : self.on_miTitlebar_toggled,
-            "on_mi010_activate" : self.on_miOpacity_activate,
-            "on_mi020_activate" : self.on_miOpacity_activate,
-            "on_mi030_activate" : self.on_miOpacity_activate,
-            "on_mi040_activate" : self.on_miOpacity_activate,
-            "on_mi050_activate" : self.on_miOpacity_activate,
-            "on_mi060_activate" : self.on_miOpacity_activate,
-            "on_mi070_activate" : self.on_miOpacity_activate,
-            "on_mi080_activate" : self.on_miOpacity_activate,
-            "on_mi090_activate" : self.on_miOpacity_activate,
-            "on_mi100_activate" : self.on_miOpacity_activate,
             "on_wCalendar_focus_out_event": self.on_wCalendar_focus_out_event,
             "on_evMonthDown_button_release_event": self.on_evMonthDown_button_release_event,
             "on_evMonthUp_button_release_event": self.on_evMonthUp_button_release_event,
@@ -183,6 +175,7 @@ class myCalendar:
             "on_cmbYear_popdown": self.on_cmbYear_popdown,
         }
         self.wMain.connect_signals(dic)
+        self.mainWindow.connect("draw", self.on_draw)
         xpos = conf.GetOption("x_pos")
         ypos = conf.GetOption("y_pos")
         self.w = int(conf.GetOption("width"))
@@ -208,11 +201,13 @@ class myCalendar:
         self.year = now.year
         self.set_style()
         self.makeCalendar(now.year, now.month)
+        # self.updateWindowMask()
         self.mainWindow.show_all()
         # 15分毎にカレンダーを更新する
         self.timeout = GLib.timeout_add_seconds(int(15*60),self.timeout_callback,self)
+        self.timeoutMask = GLib.timeout_add_seconds(int(3),self.timeoutMask_callback,self)
 
-    def timeout_callback(self):
+    def timeout_callback(self,event):
         """タイムアウト時カレンダー情報更新
         15分ごとのタイムアウトでカレンダーに設定されているイベントを更新
 
@@ -224,6 +219,52 @@ class myCalendar:
         self.setEventDayList()
         self.setHolidayList()
         return True
+
+    def timeoutMask_callback(self,event):
+        # self.mainWindow.shape_combine_region(None)
+        # while Gtk.events_pending():
+        #     Gtk.main_iteration()
+        # self.updateWindowMask()
+        # while Gtk.events_pending():
+        #     Gtk.main_iteration()
+        return True
+    
+    def updateWindowMask(self):
+        surface = cairo.ImageSurface(cairo.Format.ARGB32, self.w, self.h)
+        ctx = cairo.Context(surface)
+        ctx.set_source_rgba (1.0, 1.0, 1.0, 0.0)
+        ctx.set_operator (cairo.OPERATOR_CLEAR)
+        ctx.paint()
+        ctx.set_operator (cairo.OPERATOR_OVER)
+        ctx.set_source_rgba(1.0,1.0,1.0)
+        ctx.set_line_width(1)
+        pix = 0
+        for y in range(0, self.h, 3):
+            for x in range(0, self.w, 3):
+                ctx.move_to(x, y)
+                ctx.line_to(x+2, y+2)
+                ctx.stroke()
+        surface.write_to_png("temp.png")
+        region = Gdk.cairo_region_create_from_surface(surface)
+        self.mainWindow.shape_combine_region(region)
+
+    def on_draw(self, widget, cr):
+        # w = Gdk.get_default_root_window()
+        # sz = w.get_geometry()[2:4]
+        # #print "The size of the window is %d x %d" % sz
+        # self.pb = Gdk.pixbuf_get_from_window(w, 0, 0, sz[0], sz[1])
+        # (wx, wy) = self.mainWindow.get_position()
+        # (ww, wh) = self.mainWindow.get_size()
+        # surface = cairo.ImageSurface(cairo.Format.ARGB32, ww, wh)
+        # ctx = cairo.Context(surface)
+        # ctx.set_source_rgba (1.0, 1.0, 1.0, 0.0)
+        # ctx.set_operator (cairo.OPERATOR_SOURCE)
+        # ctx.paint()
+
+        # Gdk.cairo_set_source_pixbuf(ctx, wx, wy)
+        # cr.paint()
+        # self.updateWindowMask()
+        return
 
     def makeCalendar(self,year,month):
         '''カレンダー生成
@@ -476,17 +517,6 @@ class myCalendar:
         self.mainWindow.set_decorated(self.decoration)
         return
 
-    def on_miOpacity_activate(self, widget):
-        """透明度指定メニューイベントハンドラ
-        Arguments:
-            widget {[type]} -- [description]
-        """
-        menuStr = widget.get_child().get_text()
-        self.opacity = float(menuStr.replace("%","")) / 100
-        self.mainWindow.set_opacity(self.opacity)
-        self.schedule.set_opacity(self.opacity)
-        return
-
     def on_evMonth_button_press_event(self, widget,event):
         """月ラベルマウスボタンクリックイベント
         Arguments:
@@ -653,21 +683,23 @@ class myCalendar:
         schedules = list(dict.fromkeys(schedules))
         self.txtBuffer.set_text("")
         textIter = self.txtBuffer.get_start_iter()
-        scrollMark = None
+        scrollMark = 0
         for sch in schedules:
             if len(sch) > 0:
                 info = sch.split("\t")
                 day = datetime.strptime(info[0], "%Y-%m-%d")
                 if datetime.today() > day:
-                    scrollMark = self.txtBuffer.create_mark("mark", textIter, False)
+                    scrollMark += 1
                 self.txtBuffer.insert_markup(textIter, "<span foreground='" + self.mdColor.to_string() + "'>" + "{:02d}/{:02d}".format(day.month,day.day) + "</span> ",-1)
                 textIter = self.txtBuffer.get_end_iter()
                 self.txtBuffer.insert_markup(textIter, "<span foreground='" + self.tmColor.to_string() + "'>" + info[1]  + "</span> ",-1)
                 textIter = self.txtBuffer.get_end_iter()
                 self.txtBuffer.insert_markup(textIter, "<span foreground='" + self.textColor.to_string() + "'>" + " ".join(info[4:]) + "</span> " + "\n", -1)
                 textIter = self.txtBuffer.get_end_iter()
-        if scrollMark != None:
-            ret = self.schedule.scroll_to_mark(scrollMark, 0, False, 0, 0)
+        if scrollMark != 0:
+            itr = self.txtBuffer.get_iter_at_line(scrollMark)
+            mark = self.txtBuffer.create_mark(None, itr, True)
+            ret = self.schedule.scroll_to_mark(mark, 0, False, 0, 0)
 
     def setHolidayList(self):
         """gcalcliから取得した祝日をカレンダーに設定

@@ -57,6 +57,7 @@
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">透明カレンダー</property>
     <property name="skip_taskbar_hint">True</property>
+    <property name="skip_pager_hint">True</property>
     <signal name="button-press-event" handler="on_wCalendar_button_press_event" swapped="no"/>
     <signal name="destroy" handler="on_wCalendar_destroy" swapped="no"/>
     <signal name="focus-out-event" handler="on_wCalendar_focus_out_event" swapped="no"/>
@@ -65,7 +66,7 @@
       <placeholder/>
     </child>
     <child>
-      <object class="GtkBox">
+      <object class="GtkBox" id="vbxMain">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
@@ -1536,7 +1537,6 @@
           <object class="GtkScrolledWindow" id="sclInfoText">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="margin_bottom">10</property>
             <property name="hexpand">True</property>
             <property name="vexpand">True</property>
             <property name="shadow_type">in</property>

@@ -1,17 +1,43 @@
 /* ウィンドウ全体 */
-.mainWindow {
-  color:white;
-  border-radius:10px;
-  /* background-image: url("sample.jpg");
-  background-size:contain; */
-  /* opacity: 0.5; */
+/* .background{
+  all:unset;
+} */
+.infoText{
+  all:unset;
+}
+.infoText text{
+  all:unset;
 }
 
+.mainWindow
+{
+  all:unset;
+}
+
+.mainWindow {
+  color:white;
+  background-image:url('sample.jpg');
+  background-size:cover;
+}
+.vertical
+{
+  all:unset;
+}
+
+GtkDialog
+{
+  color: @fg_color;
+  background-color: @bg_color;
+}
+.vertical
+{
+  background-color:rgba(0,0,0,0.2);
+  background-blend-mode:lighten;
+}
 /* 通常の日 */
 .day {
   color:white;
   text-shadow: 1px 1px 1px #999999;
-  background: transparent;
 }
 
 /* 予定のある日 */
@@ -39,7 +65,8 @@
 /* 前月と次月の日付 */
 .prev_month,
 .next_month {
-  color:gray;
+  color:lightgray;
+  text-shadow: 1px 1px 1px darkgray;
 }
 
 /* 選択された日（未使用） */
@@ -70,8 +97,13 @@
 }
 
 /* カレンダー下部の予定表示 */
+/* .infoText{
+  background-color: transparent;
+} */
 .infoText text{
   color:white;
-  background-color: transparent;
-  border-radius:10px;
+  text-shadow: 1px 1px 1px #999999;
+  /* background-color: transparent; */
+  background-color:rgba(0,0,0,0.2);
+  background-blend-mode:lighten;
 }
