@@ -2004,11 +2004,9 @@
             </child>
             <child>
               <object class="GtkBox">
-                <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
                   <object class="GtkLabel">
-                    <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">8</property>
                     <property name="margin_right">8</property>
@@ -2022,7 +2020,6 @@
                 </child>
                 <child>
                   <object class="GtkScale" id="sclOpecity">
-                    <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="adjustment">adjOpecity</property>
                     <property name="round_digits">1</property>
@@ -2150,6 +2147,44 @@
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">6</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_left">10</property>
+                    <property name="label" translatable="yes">壁紙フォルダ</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkFileChooserButton" id="btnWallpaperChose">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="action">select-folder</property>
+                    <property name="create_folders">False</property>
+                    <property name="title" translatable="yes"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">7</property>
               </packing>
             </child>
           </object>

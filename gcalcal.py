@@ -18,6 +18,7 @@ import datetime
 import cairo
 from datetime import datetime, date, timedelta
 from os.path import abspath, dirname, join
+import random
 
 __VERSION__="1.0.0.0"
 
@@ -25,20 +26,24 @@ WHERE_AM_I = abspath(dirname(__file__))
 GCAL_PATH="~/.local/bin"
 EVENT_CALENDAR="kaoru.konno@gmail.com"
 HOLIDAY_CALENDAR="日本の祝日"
+WALLPAPER_PATH = ""
 
 class ConfigXML:
-    OptionList = {   "x_pos":"40",
-                     "y_pos":"40",
-                     "width":"320",
-                     "height":"200",
-                     "opacity":"100%",
-                     "decoration":"True",
-                     "gcal_path":"",
-                     "event_calendar":"xxx@gmail.com",
-                     "holiday_calendar":"日本の祝日",
-                     "mdColor":"#FFFF00",
-                     "tmColor":"#80FF80",
-                     "textColor":"#FFFFFF",
+    OptionList = {   
+        "x_pos":"40",
+        "y_pos":"40",
+        "width":"320",
+        "height":"200",
+        "opacity":"100%",
+        "decoration":"True",
+        "gcal_path":"",
+        "event_calendar":"xxx@gmail.com",
+        "holiday_calendar":"日本の祝日",
+        "mdColor":"#FFFF00",
+        "tmColor":"#80FF80",
+        "textColor":"#FFFFFF",
+        "wallpaper_path":"/usr/share/backgrounds",
+        "use_wallpaper":"",
     }
     AppName = "Gcalcal"
     ConfigPath = "/.config/Gcalcal.xml"
@@ -111,6 +116,12 @@ class myCalendar:
     Returns:
         [type] -- [description]
     """
+    wallpaper_list = []
+    wlist = []
+    sw = 0
+    use_wallpaper_list = []
+    #timeout_interval = 10
+    timeout_interval = 1
 
     def __init__(self):
         """初期化
@@ -119,7 +130,10 @@ class myCalendar:
         global GCAL_PATH
         global EVENT_CALENDAR
         global HOLIDAY_CALENDAR
+        global WALLPAPER_PATH
         conf = ConfigXML(True)
+        WALLPAPER_PATH = conf.GetOption("wallpaper_path")
+        uselist = conf.GetOption("use_wallpaper")
         #メインウィンドウを作成
         self.wMain = Gtk.Builder()
         self.wMain.add_from_file(os.path.dirname(os.path.abspath(__file__)) + "/gcalcal.glade")
@@ -199,13 +213,42 @@ class myCalendar:
         now = date.today()
         self.month = now.month
         self.year = now.year
+        #壁紙一覧を作成
+        if os.path.isdir(WALLPAPER_PATH) == False:
+            WALLPAPER_PATH = "/usr/share/backgrounds"
+        for base, path, imPath in os.walk(WALLPAPER_PATH+"/"):
+            for img in imPath:
+                limg = img.lower()
+                if limg.find("jpg") > 0 or limg.find("png") > 0 or limg.find("jpeg") > 0:
+                    if base[-1] != '/' :
+                        self.wallpaper_list.append(base+"/"+img)
+                    else:
+                        self.wallpaper_list.append(base+img)
+        self.changeWallPaper()
         self.set_style()
         self.makeCalendar(now.year, now.month)
         # self.updateWindowMask()
         self.mainWindow.show_all()
-        # 15分毎にカレンダーを更新する
-        self.timeout = GLib.timeout_add_seconds(int(15*60),self.timeout_callback,self)
-        self.timeoutMask = GLib.timeout_add_seconds(int(3),self.timeoutMask_callback,self)
+        # 60分毎にカレンダーを更新する
+        self.timeout = GLib.timeout_add_seconds(int(60*60),self.timeout_callback,self)
+        # 10分毎に壁紙を更新する
+        self.timeoutMask = GLib.timeout_add_seconds(int(10*60),self.timeoutChangeWallpaper_callback,self)
+
+    def changeWallPaper(self):
+        '''
+        壁紙切り替え
+        一度使用した壁紙が表示されないようにフラグ管理を行っている
+        '''
+        self.wlist = self.wallpaper_list
+        if len(self.use_wallpaper_list) > 0:
+            chkSet = set(self.use_wallpaper_list)
+            self.wlist = [x for x in self.wallpaper_list if x not in chkSet]
+            if len(self.wlist) == 0:
+                self.use_wallpaper_list = []
+                self.wlist = self.wallpaper_list
+        self.sw = random.randint(0,len(self.wlist)-1)
+        self.use_wallpaper_list.append(self.wlist[self.sw])
+        self._saveConf()
 
     def timeout_callback(self,event):
         """タイムアウト時カレンダー情報更新
@@ -220,13 +263,10 @@ class myCalendar:
         self.setHolidayList()
         return True
 
-    def timeoutMask_callback(self,event):
-        # self.mainWindow.shape_combine_region(None)
-        # while Gtk.events_pending():
-        #     Gtk.main_iteration()
-        # self.updateWindowMask()
-        # while Gtk.events_pending():
-        #     Gtk.main_iteration()
+    def timeoutChangeWallpaper_callback(self,event):
+        self.changeWallPaper()
+        self.set_style()
+        # self.makeCalendar(self.year, self.month)
         return True
     
     def updateWindowMask(self):
@@ -613,6 +653,7 @@ class myCalendar:
         global GCAL_PATH
         global EVENT_CALENDAR
         global HOLIDAY_CALENDAR
+        global WALLPAPER_PATH
         conf = ConfigXML(False)
         (xpos, ypos) = self.mainWindow.get_position()
         (self.w, self.h) = self.mainWindow.get_size()
@@ -630,6 +671,8 @@ class myCalendar:
         conf.SetOption("mdColor", self.mdColor.to_string())
         conf.SetOption("tmColor",self.tmColor.to_string())
         conf.SetOption("textColor",self.textColor.to_string())
+        conf.SetOption("wallpaper_path",WALLPAPER_PATH)
+        conf.SetOption("use_wallpaper",str(self.use_wallpaper_list))
         conf.Write()
 
     def on_MainWindow_realize(self, widget):
@@ -739,6 +782,7 @@ class myCalendar:
         global GCAL_PATH
         global EVENT_CALENDAR
         global HOLIDAY_CALENDAR
+        global WALLPAPER_PATH
         # 設定ダイアログ
         settingDialog = self.wMain.get_object ("dlgSetting")
         btnFileChoose = self.wMain.get_object ("btnFileChoose")
@@ -748,10 +792,12 @@ class myCalendar:
         btnMDColor = self.wMain.get_object ("btnMDColor")
         btnTMColor = self.wMain.get_object ("btnTMColor")
         btnTextColor = self.wMain.get_object ("btnTextColor")
+        btnWallpaperChose = self.wMain.get_object("btnWallpaperChose")
         btnMDColor.set_color(self.mdColor)
         btnTMColor.set_color(self.tmColor)
         btnTextColor.set_color(self.textColor)
         btnFileChoose.set_current_folder(os.path.expanduser(GCAL_PATH))
+        btnWallpaperChose.set_current_folder(WALLPAPER_PATH)
         txtEventCalendar.set_text(EVENT_CALENDAR)
         txtHolidayCalendar.set_text(HOLIDAY_CALENDAR)
         sclOpecity.set_value(self.opacity * 100)
@@ -760,6 +806,7 @@ class myCalendar:
             GCAL_PATH = btnFileChoose.get_current_folder()
             EVENT_CALENDAR = txtEventCalendar.get_text()
             HOLIDAY_CALENDAR = txtHolidayCalendar.get_text()
+            WALLPAPER_PATH = btnWallpaperChose.get_current_folder()
             self.opacity = sclOpecity.get_value() / 100
             self.mdColor = btnMDColor.get_color()
             self.tmColor = btnTMColor.get_color()
@@ -854,8 +901,11 @@ class myCalendar:
         """Change Gtk+ Style
         """
         provider = Gtk.CssProvider()
+        with open(join(WHERE_AM_I, 'gcalcal.css')) as cssFile:
+            css = cssFile.read()
+            css = css.replace("###WALLPAPER###",self.wlist[self.sw])
         # Demo CSS kindly provided by Numix project
-        provider.load_from_path(join(WHERE_AM_I, 'gcalcal.css'))
+        provider.load_from_data(css.encode())
         screen = Gdk.Display.get_default_screen(Gdk.Display.get_default())
         # I was unable to found instrospected version of this
         Gtk.StyleContext.add_provider_for_screen(
