@@ -330,6 +330,7 @@ class myCalendar:
             for col in range(7):
                 if cal[calRow][col] != 0:
                     self.days[row][col].set_text(str(cal[calRow][col]))
+                    self.days[row][col].set_tooltip_text("") #ツールチップ初期化
                     if date.today() == date(year, month, cal[calRow][col]):
                         css_context = self.days[row][col].get_style_context()
                         css_context.add_class("today")
