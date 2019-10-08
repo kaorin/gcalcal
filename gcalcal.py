@@ -141,6 +141,8 @@ class myCalendar:
         self.context_menu =  self.wMain.get_object ("mMenu")
         self.mainWindow = Gtk.Window()
         self.mainWindow.set_title("透明カレンダー")
+        self.mainWindow.set_skip_taskbar_hint(True)
+        self.mainWindow.set_skip_pager_hint(True)
         css_context = self.mainWindow.get_style_context()
         css_context.add_class("mainWindow")
         self.vbxMain = self.wMain.get_object ("vbxMain")
