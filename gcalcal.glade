@@ -3,9 +3,374 @@
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkAdjustment" id="adjOpecity">
+    <property name="lower">10</property>
     <property name="upper">100</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
+  </object>
+  <object class="GtkDialog" id="dlgSetting">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">設定</property>
+    <property name="type_hint">dialog</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child internal-child="vbox">
+      <object class="GtkBox">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox">
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="button3">
+                <property name="label">gtk-ok</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button4">
+                <property name="label">gtk-cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_left">8</property>
+                    <property name="margin_right">8</property>
+                    <property name="label" translatable="yes">gcalcliの場所</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkFileChooserButton" id="btnFileChoose">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="action">select-folder</property>
+                    <property name="title" translatable="yes">gcalcliの場所</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_left">8</property>
+                    <property name="margin_right">8</property>
+                    <property name="label" translatable="yes">イベントカレンダー名</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="txtEventCalendar">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_left">8</property>
+                    <property name="margin_right">8</property>
+                    <property name="label" translatable="yes">祝日カレンダー名</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="txtHolidayCalendar">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="can_focus">False</property>
+                    <property name="margin_left">8</property>
+                    <property name="margin_right">8</property>
+                    <property name="label" translatable="yes">透明度</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkScale" id="sclOpecity">
+                    <property name="can_focus">True</property>
+                    <property name="adjustment">adjOpecity</property>
+                    <property name="round_digits">1</property>
+                    <property name="digits">0</property>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_left">8</property>
+                    <property name="margin_right">8</property>
+                    <property name="label" translatable="yes">基本色</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkColorButton" id="btnBGColor">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_left">8</property>
+                    <property name="margin_right">8</property>
+                    <property name="label" translatable="yes">イベント月日色</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkColorButton" id="btnMDColor">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_left">8</property>
+                    <property name="margin_right">8</property>
+                    <property name="label" translatable="yes">イベント内容色</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkColorButton" id="btnTextColor">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">6</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_left">8</property>
+                    <property name="margin_right">8</property>
+                    <property name="label" translatable="yes">イベント時刻色</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkColorButton" id="btnTMColor">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">7</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-5">button3</action-widget>
+      <action-widget response="-6">button4</action-widget>
+    </action-widgets>
   </object>
   <object class="GtkAdjustment" id="adjVscroll">
     <property name="upper">100</property>
@@ -51,1530 +416,10 @@
     </child>
   </object>
   <object class="GtkTextBuffer" id="txtBufferContents"/>
-  <object class="GtkTextBuffer" id="txtInfoBuffer"/>
-  <object class="GtkWindow" id="wCalendar">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="title" translatable="yes">カレンダー</property>
-    <property name="skip_taskbar_hint">True</property>
-    <property name="skip_pager_hint">True</property>
-    <signal name="button-press-event" handler="on_wCalendar_button_press_event" swapped="no"/>
-    <signal name="destroy" handler="on_wCalendar_destroy" swapped="no"/>
-    <signal name="focus-out-event" handler="on_wCalendar_focus_out_event" swapped="no"/>
-    <signal name="realize" handler="on_wCalendar_realize" swapped="no"/>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <object class="GtkBox" id="vbxMain">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <child>
-          <object class="GtkBox">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="orientation">vertical</property>
-            <child>
-              <object class="GtkBox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_top">4</property>
-                <property name="margin_bottom">4</property>
-                <child>
-                  <object class="GtkEventBox" id="evMonthDown">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <signal name="button-release-event" handler="on_evMonthDown_button_release_event" swapped="no"/>
-                    <child>
-                      <object class="GtkLabel" id="lblMonthDown">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_left">8</property>
-                        <property name="margin_right">8</property>
-                        <property name="label" translatable="yes">&lt;</property>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="orientation">vertical</property>
-                    <child>
-                      <object class="GtkEventBox" id="evMonth">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <signal name="button-press-event" handler="on_evMonth_button_press_event" swapped="no"/>
-                        <child>
-                          <object class="GtkLabel" id="lblMonth">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">9月</property>
-                          </object>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkComboBoxText" id="cmbMonth">
-                        <property name="can_focus">False</property>
-                        <property name="no_show_all">True</property>
-                        <signal name="changed" handler="on_cmbMonth_changed" swapped="no"/>
-                        <signal name="popdown" handler="on_cmbMonth_popdown" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="evMonthUp">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <signal name="button-release-event" handler="on_evMonthUp_button_release_event" swapped="no"/>
-                    <child>
-                      <object class="GtkLabel" id="lblMonthUp">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_left">8</property>
-                        <property name="margin_right">8</property>
-                        <property name="label" translatable="yes">&gt;</property>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="evYearDonw">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <signal name="button-release-event" handler="on_evYearDonw_button_release_event" swapped="no"/>
-                    <child>
-                      <object class="GtkLabel" id="lblYearDonw">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_left">8</property>
-                        <property name="margin_right">8</property>
-                        <property name="label" translatable="yes">&lt;</property>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">4</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="orientation">vertical</property>
-                    <child>
-                      <object class="GtkEventBox" id="evYear">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <signal name="button-press-event" handler="on_evYear_button_press_event" swapped="no"/>
-                        <child>
-                          <object class="GtkLabel" id="lblYear">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">2019</property>
-                          </object>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkComboBoxText" id="cmbYear">
-                        <property name="can_focus">False</property>
-                        <property name="no_show_all">True</property>
-                        <signal name="changed" handler="on_cmbYear_changed" swapped="no"/>
-                        <signal name="popdown" handler="on_cmbYear_popdown" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">5</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="evYearUp">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <signal name="button-release-event" handler="on_evYearUp_button_release_event" swapped="no"/>
-                    <child>
-                      <object class="GtkLabel" id="lblYearUp">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_left">8</property>
-                        <property name="margin_right">8</property>
-                        <property name="label" translatable="yes">&gt;</property>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">6</property>
-                  </packing>
-                </child>
-                <style>
-                  <class name="topbar"/>
-                </style>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_top">4</property>
-                <property name="margin_bottom">4</property>
-                <property name="homogeneous">True</property>
-                <child>
-                  <object class="GtkLabel" id="lblSun">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="label" translatable="yes">日</property>
-                    <style>
-                      <class name="weekstr"/>
-                    </style>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="lblMon">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="label" translatable="yes">月</property>
-                    <style>
-                      <class name="weekstr"/>
-                    </style>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="lblTue">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="label" translatable="yes">火</property>
-                    <style>
-                      <class name="weekstr"/>
-                    </style>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="lblWed">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="label" translatable="yes">水</property>
-                    <style>
-                      <class name="weekstr"/>
-                    </style>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="lblThe">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="label" translatable="yes">木</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">4</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="lblFri">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="label" translatable="yes">金</property>
-                    <style>
-                      <class name="weekstr"/>
-                    </style>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">5</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="lblSat">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_top">4</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="hexpand">True</property>
-                    <property name="label" translatable="yes">土</property>
-                    <style>
-                      <class name="weekstr"/>
-                    </style>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">6</property>
-                  </packing>
-                </child>
-                <style>
-                  <class name="weekLine"/>
-                </style>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="homogeneous">True</property>
-                <child>
-                  <object class="GtkEventBox" id="ev00">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl00">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="weekstr"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev01">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl01">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="weekstr"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev02">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl02">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="weekstr"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev03">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl03">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="weekstr"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev04">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl04">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">4</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev05">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl05">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="weekstr"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">5</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev06">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl06">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="weekstr"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">6</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="homogeneous">True</property>
-                <child>
-                  <object class="GtkEventBox" id="ev07">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl07">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="sun"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev08">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl08">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="mon"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev09">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl09">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="tue"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev10">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl10">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="wed"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev11">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl11">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="thu"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">4</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev12">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl12">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="fri"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">5</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev13">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl13">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="sat"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">6</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="homogeneous">True</property>
-                <child>
-                  <object class="GtkEventBox" id="ev14">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl14">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="sun"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev15">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl15">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="mon"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev16">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl16">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="tue"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev17">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl17">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="wed"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev18">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl18">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="thu"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">4</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev19">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl19">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="fri"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">5</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev20">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl20">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="sat"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">6</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">4</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="homogeneous">True</property>
-                <child>
-                  <object class="GtkEventBox" id="ev21">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl21">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="sun"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev22">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl22">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="mon"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev23">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl23">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="tue"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev24">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl24">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="wed"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev25">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl25">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="thu"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">4</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev26">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl26">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="fri"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">5</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev27">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl27">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="sat"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">6</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">5</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="homogeneous">True</property>
-                <child>
-                  <object class="GtkEventBox" id="ev28">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl28">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="sun"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev29">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl29">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="mon"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev30">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl30">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="tue"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev31">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl31">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="wed"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev32">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl32">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="thu"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">4</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev33">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl33">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="fri"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">5</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev34">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl34">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="sat"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">6</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">6</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="homogeneous">True</property>
-                <child>
-                  <object class="GtkEventBox" id="ev35">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl35">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="sun"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev36">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl36">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="mon"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev37">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl37">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="tue"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev38">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl38">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="wed"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev39">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl39">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="thu"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">4</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev40">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl40">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="fri"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">5</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="ev41">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="lbl41">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">4</property>
-                        <property name="hexpand">True</property>
-                        <property name="justify">center</property>
-                        <style>
-                          <class name="day"/>
-                          <class name="sat"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">6</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">7</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkScrolledWindow" id="sclInfoText">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="hexpand">True</property>
-            <property name="vexpand">True</property>
-            <property name="shadow_type">in</property>
-            <child>
-              <object class="GtkTextView" id="txtInfoText">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="hexpand">True</property>
-                <property name="vexpand">True</property>
-                <property name="vadjustment">adjVscroll</property>
-                <property name="editable">False</property>
-                <property name="buffer">txtInfoBuffer</property>
-                <style>
-                  <class name="infoText"/>
-                </style>
-              </object>
-            </child>
-            <style>
-              <class name="infoText"/>
-            </style>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-    <style>
-      <class name="mainWindow"/>
-    </style>
-  </object>
   <object class="GtkDialog" id="dlgAddSchedule">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">予定の追加</property>
     <property name="type_hint">dialog</property>
-    <property name="transient_for">wCalendar</property>
     <child>
       <placeholder/>
     </child>
@@ -1835,93 +680,35 @@
       <action-widget response="-6">button2</action-widget>
     </action-widgets>
   </object>
-  <object class="GtkDialog" id="dlgSetting">
+  <object class="GtkTextBuffer" id="txtInfoBuffer"/>
+  <object class="GtkBox" id="vbxMain">
+    <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="title" translatable="yes">設定</property>
-    <property name="type_hint">dialog</property>
-    <property name="transient_for">wCalendar</property>
+    <property name="orientation">vertical</property>
     <child>
-      <placeholder/>
-    </child>
-    <child internal-child="vbox">
       <object class="GtkBox">
+        <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox">
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="button3">
-                <property name="label">gtk-ok</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button4">
-                <property name="label">gtk-cancel</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
         <child>
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="orientation">vertical</property>
+            <property name="margin_top">4</property>
+            <property name="margin_bottom">4</property>
             <child>
-              <object class="GtkBox">
+              <object class="GtkEventBox" id="evMonthDown">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <signal name="button-release-event" handler="on_evMonthDown_button_release_event" swapped="no"/>
                 <child>
-                  <object class="GtkLabel">
+                  <object class="GtkLabel" id="lblMonthDown">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">8</property>
                     <property name="margin_right">8</property>
-                    <property name="label" translatable="yes">gcalcliの場所</property>
+                    <property name="label" translatable="yes">&lt;</property>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkFileChooserButton" id="btnFileChoose">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="action">select-folder</property>
-                    <property name="title" translatable="yes">gcalcliの場所</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
                 </child>
               </object>
               <packing>
@@ -1934,13 +721,19 @@
               <object class="GtkBox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkLabel">
+                  <object class="GtkEventBox" id="evMonth">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">8</property>
-                    <property name="margin_right">8</property>
-                    <property name="label" translatable="yes">イベントカレンダー名</property>
+                    <signal name="button-press-event" handler="on_evMonth_button_press_event" swapped="no"/>
+                    <child>
+                      <object class="GtkLabel" id="lblMonth">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">9月</property>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1949,12 +742,14 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry" id="txtEventCalendar">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                  <object class="GtkComboBoxText" id="cmbMonth">
+                    <property name="can_focus">False</property>
+                    <property name="no_show_all">True</property>
+                    <signal name="changed" handler="on_cmbMonth_changed" swapped="no"/>
+                    <signal name="popdown" handler="on_cmbMonth_popdown" swapped="no"/>
                   </object>
                   <packing>
-                    <property name="expand">True</property>
+                    <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
@@ -1967,33 +762,18 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox">
+              <object class="GtkEventBox" id="evMonthUp">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <signal name="button-release-event" handler="on_evMonthUp_button_release_event" swapped="no"/>
                 <child>
-                  <object class="GtkLabel">
+                  <object class="GtkLabel" id="lblMonthUp">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">8</property>
                     <property name="margin_right">8</property>
-                    <property name="label" translatable="yes">祝日カレンダー名</property>
+                    <property name="label" translatable="yes">&gt;</property>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="txtHolidayCalendar">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
                 </child>
               </object>
               <packing>
@@ -2003,70 +783,29 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox">
+              <object class="GtkLabel">
+                <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkLabel">
-                    <property name="can_focus">False</property>
-                    <property name="margin_left">8</property>
-                    <property name="margin_right">8</property>
-                    <property name="label" translatable="yes">透明度</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkScale" id="sclOpecity">
-                    <property name="can_focus">True</property>
-                    <property name="adjustment">adjOpecity</property>
-                    <property name="round_digits">1</property>
-                    <property name="digits">0</property>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
               </object>
               <packing>
-                <property name="expand">False</property>
+                <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="position">3</property>
               </packing>
             </child>
             <child>
-              <object class="GtkBox">
+              <object class="GtkEventBox" id="evYearDonw">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <signal name="button-release-event" handler="on_evYearDonw_button_release_event" swapped="no"/>
                 <child>
-                  <object class="GtkLabel">
+                  <object class="GtkLabel" id="lblYearDonw">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">8</property>
                     <property name="margin_right">8</property>
-                    <property name="label" translatable="yes">イベント月日色</property>
+                    <property name="label" translatable="yes">&lt;</property>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkColorButton" id="btnMDColor">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
                 </child>
               </object>
               <packing>
@@ -2079,13 +818,19 @@
               <object class="GtkBox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkLabel">
+                  <object class="GtkEventBox" id="evYear">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">8</property>
-                    <property name="margin_right">8</property>
-                    <property name="label" translatable="yes">イベント時刻色</property>
+                    <signal name="button-press-event" handler="on_evYear_button_press_event" swapped="no"/>
+                    <child>
+                      <object class="GtkLabel" id="lblYear">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">2019</property>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -2094,10 +839,11 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkColorButton" id="btnTMColor">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
+                  <object class="GtkComboBoxText" id="cmbYear">
+                    <property name="can_focus">False</property>
+                    <property name="no_show_all">True</property>
+                    <signal name="changed" handler="on_cmbYear_changed" swapped="no"/>
+                    <signal name="popdown" handler="on_cmbYear_popdown" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -2113,34 +859,18 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox">
+              <object class="GtkEventBox" id="evYearUp">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <signal name="button-release-event" handler="on_evYearUp_button_release_event" swapped="no"/>
                 <child>
-                  <object class="GtkLabel">
+                  <object class="GtkLabel" id="lblYearUp">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">8</property>
                     <property name="margin_right">8</property>
-                    <property name="label" translatable="yes">イベント内容色</property>
+                    <property name="label" translatable="yes">&gt;</property>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkColorButton" id="btnTextColor">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
                 </child>
               </object>
               <packing>
@@ -2149,44 +879,149 @@
                 <property name="position">6</property>
               </packing>
             </child>
+            <style>
+              <class name="topbar"/>
+            </style>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_top">4</property>
+            <property name="margin_bottom">4</property>
+            <property name="homogeneous">True</property>
             <child>
-              <object class="GtkBox">
+              <object class="GtkLabel" id="lblSun">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_left">10</property>
-                    <property name="label" translatable="yes">壁紙フォルダ</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkFileChooserButton" id="btnWallpaperChose">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="action">select-folder</property>
-                    <property name="create_folders">False</property>
-                    <property name="title" translatable="yes">壁紙の場所</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
+                <property name="margin_top">4</property>
+                <property name="margin_bottom">4</property>
+                <property name="hexpand">True</property>
+                <property name="label" translatable="yes">日</property>
+                <style>
+                  <class name="weekstr"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">7</property>
+                <property name="position">0</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkLabel" id="lblMon">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_top">4</property>
+                <property name="margin_bottom">4</property>
+                <property name="hexpand">True</property>
+                <property name="label" translatable="yes">月</property>
+                <style>
+                  <class name="weekstr"/>
+                </style>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="lblTue">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_top">4</property>
+                <property name="margin_bottom">4</property>
+                <property name="hexpand">True</property>
+                <property name="label" translatable="yes">火</property>
+                <style>
+                  <class name="weekstr"/>
+                </style>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="lblWed">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_top">4</property>
+                <property name="margin_bottom">4</property>
+                <property name="hexpand">True</property>
+                <property name="label" translatable="yes">水</property>
+                <style>
+                  <class name="weekstr"/>
+                </style>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="lblThe">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_top">4</property>
+                <property name="margin_bottom">4</property>
+                <property name="hexpand">True</property>
+                <property name="label" translatable="yes">木</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="lblFri">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_top">4</property>
+                <property name="margin_bottom">4</property>
+                <property name="hexpand">True</property>
+                <property name="label" translatable="yes">金</property>
+                <style>
+                  <class name="weekstr"/>
+                </style>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="lblSat">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_top">4</property>
+                <property name="margin_bottom">4</property>
+                <property name="hexpand">True</property>
+                <property name="label" translatable="yes">土</property>
+                <style>
+                  <class name="weekstr"/>
+                </style>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">6</property>
+              </packing>
+            </child>
+            <style>
+              <class name="weekLine"/>
+            </style>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -2194,11 +1029,1155 @@
             <property name="position">1</property>
           </packing>
         </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="homogeneous">True</property>
+            <child>
+              <object class="GtkEventBox" id="ev00">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl00">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="weekstr"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev01">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl01">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="weekstr"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev02">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl02">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="weekstr"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev03">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl03">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="weekstr"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev04">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl04">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev05">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl05">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="weekstr"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev06">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl06">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="weekstr"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">6</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="homogeneous">True</property>
+            <child>
+              <object class="GtkEventBox" id="ev07">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl07">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="sun"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev08">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl08">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="mon"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev09">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl09">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="tue"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev10">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl10">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="wed"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev11">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl11">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="thu"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev12">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl12">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="fri"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev13">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl13">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="sat"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">6</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="homogeneous">True</property>
+            <child>
+              <object class="GtkEventBox" id="ev14">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl14">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="sun"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev15">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl15">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="mon"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev16">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl16">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="tue"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev17">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl17">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="wed"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev18">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl18">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="thu"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev19">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl19">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="fri"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev20">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl20">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="sat"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">6</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="homogeneous">True</property>
+            <child>
+              <object class="GtkEventBox" id="ev21">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl21">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="sun"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev22">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl22">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="mon"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev23">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl23">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="tue"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev24">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl24">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="wed"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev25">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl25">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="thu"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev26">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl26">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="fri"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev27">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl27">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="sat"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">6</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">5</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="homogeneous">True</property>
+            <child>
+              <object class="GtkEventBox" id="ev28">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl28">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="sun"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev29">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl29">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="mon"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev30">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl30">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="tue"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev31">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl31">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="wed"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev32">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl32">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="thu"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev33">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl33">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="fri"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev34">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl34">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="sat"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">6</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">6</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="homogeneous">True</property>
+            <child>
+              <object class="GtkEventBox" id="ev35">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl35">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="sun"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev36">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl36">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="mon"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev37">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl37">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="tue"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev38">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl38">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="wed"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev39">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl39">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="thu"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev40">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl40">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="fri"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="ev41">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="lbl41">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">4</property>
+                    <property name="margin_bottom">4</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="day"/>
+                      <class name="sat"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">6</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">7</property>
+          </packing>
+        </child>
       </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
     </child>
-    <action-widgets>
-      <action-widget response="-5">button3</action-widget>
-      <action-widget response="-6">button4</action-widget>
-    </action-widgets>
+    <child>
+      <object class="GtkScrolledWindow" id="sclInfoText">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="hexpand">True</property>
+        <property name="vexpand">True</property>
+        <property name="shadow_type">in</property>
+        <child>
+          <object class="GtkTextView" id="txtInfoText">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
+            <property name="vadjustment">adjVscroll</property>
+            <property name="editable">False</property>
+            <property name="buffer">txtInfoBuffer</property>
+            <style>
+              <class name="infoText"/>
+            </style>
+          </object>
+        </child>
+        <style>
+          <class name="infoText"/>
+        </style>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
   </object>
 </interface>

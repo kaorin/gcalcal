@@ -39,6 +39,7 @@ class ConfigXML:
         "gcal_path":"",
         "event_calendar":"xxx@gmail.com",
         "holiday_calendar":"日本の祝日",
+        "bgColor":"#000000",
         "mdColor":"#FFFF00",
         "tmColor":"#80FF80",
         "textColor":"#FFFFFF",
@@ -138,8 +139,12 @@ class myCalendar:
         self.wMain = Gtk.Builder()
         self.wMain.add_from_file(os.path.dirname(os.path.abspath(__file__)) + "/gcalcal.glade")
         self.context_menu =  self.wMain.get_object ("mMenu")
-        self.mainWindow = self.wMain.get_object ("wCalendar")
+        self.mainWindow = Gtk.Window()
+        self.mainWindow.set_title("透明カレンダー")
+        css_context = self.mainWindow.get_style_context()
+        css_context.add_class("mainWindow")
         self.vbxMain = self.wMain.get_object ("vbxMain")
+        self.mainWindow.add(self.vbxMain)
         self.calCalendar = self.wMain.get_object ("calCalendar")
         self.sclInfoText = self.wMain.get_object ("sclInfoText")
         self.txtBuffer = self.wMain.get_object ("txtInfoBuffer")
@@ -167,7 +172,9 @@ class myCalendar:
         visual = screen.get_rgba_visual()
         if visual != None and screen.is_composited():
             self.mainWindow.set_visual(visual)
+            self.supports_alpha = True
         else:
+            self.supports_alpha = False
             print ("no Composited...")
         dic = {
             "on_miExit_activate" : self.on_miExit_activate,
@@ -190,6 +197,9 @@ class myCalendar:
         }
         self.wMain.connect_signals(dic)
         self.mainWindow.connect("draw", self.on_draw)
+        self.mainWindow.connect("destroy",self.on_wCalendar_destroy)
+        self.mainWindow.connect("button_press_event",self.on_wCalendar_button_press_event)
+        self.mainWindow.connect("realize",self.on_MainWindow_realize)
         xpos = conf.GetOption("x_pos")
         ypos = conf.GetOption("y_pos")
         self.w = int(conf.GetOption("width"))
@@ -198,6 +208,7 @@ class myCalendar:
         GCAL_PATH = conf.GetOption("gcal_path")
         EVENT_CALENDAR = conf.GetOption("event_calendar")
         HOLIDAY_CALENDAR = conf.GetOption("holiday_calendar")
+        self.bgColor = Gdk.color_parse(conf.GetOption("bgColor"))
         self.mdColor = Gdk.color_parse(conf.GetOption("mdColor"))
         self.tmColor = Gdk.color_parse(conf.GetOption("tmColor"))
         self.textColor = Gdk.color_parse(conf.GetOption("textColor"))
@@ -206,6 +217,8 @@ class myCalendar:
         self.wMain.get_object("miTitlebar").set_active(self.decoration)
         self.cancalEvent = False
         self.opacity = float(conf.GetOption("opacity").replace("%","")) / 100
+        if self.opacity < 0.1:
+            self.opacity = 0.1
         self.mainWindow.set_opacity(self.opacity)
         self.schedule.set_opacity(self.opacity)
         self.mainWindow.set_decorated(self.decoration)
@@ -232,7 +245,7 @@ class myCalendar:
         # 60分毎にカレンダーを更新する
         self.timeout = GLib.timeout_add_seconds(int(60*60),self.timeout_callback,self)
         # 10分毎に壁紙を更新する
-        self.timeoutMask = GLib.timeout_add_seconds(int(10*60),self.timeoutChangeWallpaper_callback,self)
+        # self.timeoutMask = GLib.timeout_add_seconds(int(10*60),self.timeoutChangeWallpaper_callback,self)
 
     def changeWallPaper(self):
         '''
@@ -285,22 +298,21 @@ class myCalendar:
         region = Gdk.cairo_region_create_from_surface(surface)
         self.mainWindow.shape_combine_region(region)
 
-    def on_draw(self, widget, cr):
-        # w = Gdk.get_default_root_window()
-        # sz = w.get_geometry()[2:4]
-        # #print "The size of the window is %d x %d" % sz
-        # self.pb = Gdk.pixbuf_get_from_window(w, 0, 0, sz[0], sz[1])
-        # (wx, wy) = self.mainWindow.get_position()
-        # (ww, wh) = self.mainWindow.get_size()
-        # surface = cairo.ImageSurface(cairo.Format.ARGB32, ww, wh)
-        # ctx = cairo.Context(surface)
-        # ctx.set_source_rgba (1.0, 1.0, 1.0, 0.0)
-        # ctx.set_operator (cairo.OPERATOR_SOURCE)
-        # ctx.paint()
+    def on_draw(self, widget, event, userdata=None):
+        cr = Gdk.cairo_create(widget.get_window())
 
-        # Gdk.cairo_set_source_pixbuf(ctx, wx, wy)
-        # cr.paint()
-        # self.updateWindowMask()
+        if self.supports_alpha:
+            # print("setting transparent window")
+            r = self.bgColor.red / 65536
+            g = self.bgColor.green / 65536
+            b = self.bgColor.blue / 65536
+            cr.set_source_rgba(r,g,b, self.opacity)
+        else:
+            # print("setting opaque window")
+            cr.set_source_rgb(1.0, 1.0, 1.0)
+
+        cr.set_operator(cairo.OPERATOR_SOURCE)
+        cr.paint()
         return
 
     def makeCalendar(self,year,month):
@@ -666,6 +678,7 @@ class myCalendar:
         conf.SetOption("gcal_path", GCAL_PATH)
         conf.SetOption("event_calendar", EVENT_CALENDAR)
         conf.SetOption("holiday_calendar", HOLIDAY_CALENDAR)
+        conf.SetOption("bgColor", self.bgColor.to_string())
         conf.SetOption("mdColor", self.mdColor.to_string())
         conf.SetOption("tmColor",self.tmColor.to_string())
         conf.SetOption("textColor",self.textColor.to_string())
@@ -783,19 +796,22 @@ class myCalendar:
         global WALLPAPER_PATH
         # 設定ダイアログ
         settingDialog = self.wMain.get_object ("dlgSetting")
+        settingDialog.set_transient_for(self.mainWindow)
         btnFileChoose = self.wMain.get_object ("btnFileChoose")
         txtEventCalendar = self.wMain.get_object ("txtEventCalendar")
         txtHolidayCalendar = self.wMain.get_object ("txtHolidayCalendar")
         sclOpecity = self.wMain.get_object ("sclOpecity")
+        btnBGColor = self.wMain.get_object ("btnBGColor")
         btnMDColor = self.wMain.get_object ("btnMDColor")
         btnTMColor = self.wMain.get_object ("btnTMColor")
         btnTextColor = self.wMain.get_object ("btnTextColor")
-        btnWallpaperChose = self.wMain.get_object("btnWallpaperChose")
+        # btnWallpaperChose = self.wMain.get_object("btnWallpaperChose")
+        btnBGColor.set_color(self.bgColor)
         btnMDColor.set_color(self.mdColor)
         btnTMColor.set_color(self.tmColor)
         btnTextColor.set_color(self.textColor)
         btnFileChoose.set_current_folder(os.path.expanduser(GCAL_PATH))
-        btnWallpaperChose.set_current_folder(WALLPAPER_PATH)
+        # btnWallpaperChose.set_current_folder(WALLPAPER_PATH)
         txtEventCalendar.set_text(EVENT_CALENDAR)
         txtHolidayCalendar.set_text(HOLIDAY_CALENDAR)
         sclOpecity.set_value(self.opacity * 100)
@@ -804,8 +820,9 @@ class myCalendar:
             GCAL_PATH = btnFileChoose.get_current_folder()
             EVENT_CALENDAR = txtEventCalendar.get_text()
             HOLIDAY_CALENDAR = txtHolidayCalendar.get_text()
-            WALLPAPER_PATH = btnWallpaperChose.get_current_folder()
+            # WALLPAPER_PATH = btnWallpaperChose.get_current_folder()
             self.opacity = sclOpecity.get_value() / 100
+            self.bgColor = btnBGColor.get_color()
             self.mdColor = btnMDColor.get_color()
             self.tmColor = btnTMColor.get_color()
             self.textColor = btnTextColor.get_color()

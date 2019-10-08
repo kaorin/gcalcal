@@ -16,9 +16,9 @@
 
 .mainWindow {
   color:white;
-  background-image:url('###WALLPAPER###');
+  /* background-image:url('###WALLPAPER###');
   background-size:contain;
-  background-position: 0px 48px;
+  background-position: 0px 48px; */
   /*background-repeat: no-repeat;*/
 }
 .mainWindow > .vertical
@@ -93,8 +93,16 @@
 }
 
 /* カレンダー下部の予定表示 */
- .infoText *{
+ .infoText:backdrop {
   background-color: transparent;
   color:white;
   text-shadow: 1px 1px 1px rgba(150,150,150,0);
+}
+
+GtkScrolledWindow{
+  background-color: rgba(0,0,0,0.2);
+}
+
+.infoText text{
+  background-color: rgba(0,0,0,0.2);
 }
