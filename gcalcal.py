@@ -753,9 +753,11 @@ class myCalendar:
                 self.txtBuffer.insert_markup(textIter, "<span foreground='" + self.textColor.to_string() + "'>" + " ".join(info[4:]) + "</span> " + "\n", -1)
                 textIter = self.txtBuffer.get_end_iter()
         if scrollMark != 0:
+            print("scrollmark::" + str(scrollMark))
             itr = self.txtBuffer.get_iter_at_line(scrollMark)
             mark = self.txtBuffer.create_mark(None, itr, True)
-            ret = self.schedule.scroll_to_mark(mark, 0, False, 0, 0)
+            ret = self.schedule.scroll_to_mark (mark,0,True,0,0)
+            print(ret)
 
     def setHolidayList(self):
         """gcalcliから取得した祝日をカレンダーに設定
