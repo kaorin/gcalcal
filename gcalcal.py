@@ -29,7 +29,7 @@ HOLIDAY_CALENDAR="日本の祝日"
 WALLPAPER_PATH = ""
 
 class ConfigXML:
-    OptionList = {   
+    OptionList = {
         "x_pos":"40",
         "y_pos":"40",
         "width":"320",
@@ -221,8 +221,8 @@ class myCalendar:
         self.opacity = float(conf.GetOption("opacity").replace("%","")) / 100
         if self.opacity < 0.1:
             self.opacity = 0.1
-        self.mainWindow.set_opacity(self.opacity)
-        self.schedule.set_opacity(self.opacity)
+        # self.mainWindow.set_opacity(self.opacity)
+        # self.schedule.set_opacity(self.opacity)
         self.mainWindow.set_decorated(self.decoration)
         self.mainWindow.move(int(xpos), int(ypos))
         now = date.today()
@@ -280,7 +280,7 @@ class myCalendar:
         self.set_style()
         # self.makeCalendar(self.year, self.month)
         return True
-    
+
     def updateWindowMask(self):
         surface = cairo.ImageSurface(cairo.Format.ARGB32, self.w, self.h)
         ctx = cairo.Context(surface)
@@ -733,7 +733,7 @@ class myCalendar:
         """
         montStart = date(self.year, self.month,1)
         _, lastday = calendar.monthrange(self.year, self.month)
-        montFinish = date.today() +  + timedelta(days=14)   # 当日から2週間後まで
+        montFinish = date(self.year, self.month,lastday) +  timedelta(days=14)   # 月末から2週間後まで
         schedules = self.res_cmd_no_lfeed(GCAL_PATH + "gcalcli --nocolor agenda --tsv " + montStart.isoformat() + " " + montFinish.isoformat())
         dict.fromkeys(schedules)
         schedules = list(dict.fromkeys(schedules))
@@ -828,8 +828,8 @@ class myCalendar:
             self.mdColor = btnMDColor.get_color()
             self.tmColor = btnTMColor.get_color()
             self.textColor = btnTextColor.get_color()
-            self.mainWindow.set_opacity(self.opacity)
-            self.schedule.set_opacity(self.opacity)
+            # self.mainWindow.set_opacity(self.opacity)
+            # self.schedule.set_opacity(self.opacity)
             self._saveConf()
             settingDialog.hide()
             while Gtk.events_pending():

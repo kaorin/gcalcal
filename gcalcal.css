@@ -20,6 +20,7 @@
   background-size:contain;
   background-position: 0px 48px; */
   /*background-repeat: no-repeat;*/
+  border-radius: 10px;
 }
 .mainWindow > .vertical
 {
