@@ -358,19 +358,20 @@ class myCalendar:
         # 次月
         lastrow = len(cal) - 1 + start
         firstWeek, lastday = calendar.monthrange(nextdate.year, nextdate.month)
-        start = 0
+        nextStart = 0
         if firstWeek == 6:
             lastrow += 1
         if lastrow == 4:
-            start = 1
+            nextStart = 1
         if firstWeek != 6 and lastrow == 5:
-            start = 1
-        for row in range(6 - len(cal) + start):
-            for col in range(7):
-                if nextcal[row][col] != 0:
-                    self.days[lastrow+row][col].set_text(str(nextcal[row][col]))
-                    css_context = self.days[lastrow+row][col].get_style_context()
-                    css_context.add_class("next_month")
+            nextStart = 1
+        for row in range(6 - len(cal) + nextStart):
+            if lastrow+row < 6:
+                for col in range(7):
+                    if nextcal[row][col] != 0:
+                        self.days[lastrow+row][col].set_text(str(nextcal[row][col]))
+                        css_context = self.days[lastrow+row][col].get_style_context()
+                        css_context.add_class("next_month")
             
         self.setEventDay()
         self.setEventDayList()
